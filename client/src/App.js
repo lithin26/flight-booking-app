@@ -14,12 +14,12 @@ import AuthProtector from './RouteProtectors/AuthProtector';
 import BookFlight from './pages/BookFlight';
 import EditFlight from './pages/EditFlight';
 import FlightAdmin from './pages/FlightAdmin';
-import FlightBookings from './pages/FlightBookings.jsx';
-import Flights from './pages/Flights.jsx';
+import FlightBookings from './pages/FlightBookings';
+import Flights from './pages/Flights';
 
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:6001';
 
 function App() {
   return (
