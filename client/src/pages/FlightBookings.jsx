@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import '../styles/Bookings.css';
+import '../styles/Admin.css';
 
 const FlightBookings = () => {
   const [userDetails, setUserDetails] = useState();
@@ -16,7 +16,6 @@ const FlightBookings = () => {
       const id = localStorage.getItem('userId');
       const response = await axios.get(`/fetch-user/${id}`);
       setUserDetails(response.data);
-      console.log('User data:', response.data);
     } catch (err) {
       console.error('Error fetching user data:', err);
     }
@@ -24,29 +23,31 @@ const FlightBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const userId = localStorage.getItem('userId');
-      const response = await axios.get('/fetch-bookings');
-      // Only show bookings for this operator's flights
-      const myBookings = response.data.filter(b => b.operatorId === userId);
-      setBookings(myBookings.reverse());
+      const operatorId = localStorage.getItem('userId');
+      const flightName = localStorage.getItem('username');
+      // Hybrid fetch: Both ID and Name to ensure visibility of legacy data
+      const response = await axios.get(`/fetch-bookings?operatorId=${operatorId}&flightName=${flightName}`);
+      setBookings(response.data.reverse());
     } catch (err) {
       console.error('Error fetching bookings:', err);
     }
   };
 
   const cancelTicket = async (id) => {
-    try {
-      await axios.put(`/cancel-ticket/${id}`);
-      alert('Ticket cancelled!!');
-      fetchBookings();
-    } catch (err) {
-      console.error('Error cancelling ticket:', err);
-      alert('Failed to cancel ticket.');
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
+      try {
+        await axios.put(`/cancel-ticket/${id}`);
+        alert('Ticket cancelled successfully.');
+        fetchBookings();
+      } catch (err) {
+        console.error('Error cancelling ticket:', err);
+        alert('Failed to cancel ticket.');
+      }
     }
   };
 
   return (
-    <div className="user-bookingsPage">
+    <div className="admin-dashboard-container">
       {userDetails ? (
         <>
           {userDetails.approval === 'not-approved' ? (
@@ -56,88 +57,87 @@ const FlightBookings = () => {
             </div>
           ) : userDetails.approval === 'approved' ? (
             <>
-              <h1>Operator Control: Flight Manifests</h1>
-              <div className="user-bookings">
-                {bookings.map((booking) => (
-                  <div className="user-booking" key={booking._id}>
-                    
-                    <div className="booking-header">
-                      <span className="booking-id">ID: {booking._id.slice(-8).toUpperCase()}</span>
-                      <span className="booking-date">Booked: {booking.bookingDate?.slice(0, 10)}</span>
-                    </div>
+              <div className="admin-header">
+                <h1>Passenger Manifests</h1>
+                <div style={{color: '#64748b', fontSize: '0.875rem'}}>
+                    Total Bookings: <b>{bookings.length}</b>
+                </div>
+              </div>
 
-                    <div className="booking-route">
-                      <div className="route-point">
-                        <span className="route-city">{booking.departure}</span>
-                        <span className="route-time">{booking.journeyTime}</span>
-                      </div>
-                      <div className="route-icon">✈</div>
-                      <div className="route-point">
-                        <span className="route-city">{booking.destination}</span>
-                        <span className="route-time">Arrival: {booking.arrivalTime || '--:--'}</span>
-                      </div>
+              <div className="manifest-container">
+                <div className="manifest-table-wrapper">
+                  <table className="manifest-table">
+                    <thead>
+                      <tr>
+                        <th>Flight Details</th>
+                        <th>Journey Info</th>
+                        <th>Customer Contact</th>
+                        <th>Passengers & Class</th>
+                        <th>Financials</th>
+                        <th>Status & Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map((booking) => (
+                        <tr key={booking._id}>
+                          <td>
+                            <div style={{fontWeight: '700'}}>{booking.flightName}</div>
+                            <span className="flight-id-badge">{booking.flightId}</span>
+                          </td>
+                          <td>
+                            <div style={{fontSize: '0.8rem', fontWeight: '600'}}>{booking.departure} → {booking.destination}</div>
+                            <div style={{fontSize: '0.75rem', color: '#64748b'}}>{booking.journeyTime} | {booking.journeyDate}</div>
+                          </td>
+                          <td>
+                            <div style={{fontSize: '0.85rem'}}>{booking.email}</div>
+                            <div style={{fontSize: '0.75rem', color: '#64748b'}}>{booking.mobile}</div>
+                          </td>
+                          <td>
+                            <div style={{marginBottom: '4px'}}>
+                                <span className="passenger-tag" style={{background: '#f1f5f9', color: '#475569'}}>{booking.seatClass.toUpperCase()}</span>
+                            </div>
+                            {booking.passengers.map((p, i) => (
+                              <span key={i} className="passenger-tag">
+                                {p.name} ({p.age})
+                              </span>
+                            ))}
+                          </td>
+                          <td>
+                            <div style={{fontWeight: '700', color: '#0f172a'}}>₹{booking.totalPrice}</div>
+                            <div style={{fontSize: '0.7rem', color: '#94a3b8'}}>Paid via Razorpay</div>
+                          </td>
+                          <td>
+                            <div className={`status-pill status-${booking.bookingStatus}`} style={{display: 'inline-block', marginBottom: '8px'}}>
+                              {booking.bookingStatus}
+                            </div>
+                            {booking.bookingStatus === 'confirmed' && (
+                                <div>
+                                    <button 
+                                        className="btn btn-sm btn-outline-danger" 
+                                        style={{fontSize: '0.7rem', padding: '2px 8px'}}
+                                        onClick={() => cancelTicket(booking._id)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {bookings.length === 0 && (
+                    <div style={{padding: '3rem', textAlign: 'center', color: '#94a3b8'}}>
+                        No passenger records found for your flights.
                     </div>
-
-                    <div className="booking-details-grid">
-                      <div className="detail-item">
-                        <span className="detail-label">Flight</span>
-                        <span className="detail-value">{booking.flightName} ({booking.flightId})</span>
-                      </div>
-                      <div className="detail-item">
-                        <span className="detail-label">Customer Contact</span>
-                        <span className="detail-value">{booking.mobile} / {booking.email}</span>
-                      </div>
-                      <div className="detail-item">
-                        <span className="detail-label">Class</span>
-                        <span className="detail-value" style={{textTransform: 'capitalize'}}>{booking.seatClass}</span>
-                      </div>
-                      <div className="detail-item">
-                        <span className="detail-label">Seats Assigned</span>
-                        <span className="detail-value">{booking.seats || 'N/A'}</span>
-                      </div>
-                    </div>
-
-                    <div className="booking-passengers">
-                      <span className="detail-label">Manifest (Passenger List)</span>
-                      <div className="passenger-list">
-                        {booking.passengers.map((passenger, i) => (
-                          <div key={i} className="passenger-item">
-                            <span>{passenger.name}</span>
-                            <span style={{color: '#94a3b8'}}>Age: {passenger.age}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="booking-footer">
-                      <div className={`status-badge status-${booking.bookingStatus}`}>
-                        {booking.bookingStatus}
-                      </div>
-                      <div className="total-price-box">
-                        <span className="detail-label">Revenue Share</span>
-                        <div className="price">₹{booking.totalPrice}</div>
-                      </div>
-                    </div>
-
-                    {booking.bookingStatus === 'confirmed' && (
-                      <div style={{padding: '0 1.5rem 1.5rem'}}>
-                        <button 
-                          className="btn btn-outline-danger w-100" 
-                          style={{borderRadius: '0.5rem', fontWeight: '600'}}
-                          onClick={() => cancelTicket(booking._id)}
-                        >
-                          Request Cancellation
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                )}
               </div>
             </>
           ) : null}
         </>
       ) : (
-        <p>Loading user details...</p>
+        <p>Loading records...</p>
       )}
     </div>
   );

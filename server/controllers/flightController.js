@@ -53,8 +53,13 @@ export const updateFlight = async (req, res) => {
 
 export const fetchFlight = async (req, res) => {
   try {
-    const { adminId } = req.query;
-    const filter = adminId ? { adminId } : {};
+    const { adminId, flightName } = req.query;
+    let filter = {};
+    if (adminId || flightName) {
+      filter = { $or: [] };
+      if (adminId) filter.$or.push({ adminId });
+      if (flightName) filter.$or.push({ flightName });
+    }
     const flights = await Flight.find(filter);
     res.json(flights);
   } catch (err) {
@@ -76,7 +81,14 @@ export const fetchFlightById = async (req, res) => {
 
 export const fetchBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find();
+    const { operatorId, flightName } = req.query;
+    let filter = {};
+    if (operatorId || flightName) {
+      filter = { $or: [] };
+      if (operatorId) filter.$or.push({ operatorId });
+      if (flightName) filter.$or.push({ flightName });
+    }
+    const bookings = await Booking.find(filter);
     res.json(bookings);
   } catch (err) {
     console.log(err);

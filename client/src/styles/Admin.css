@@ -150,6 +150,13 @@
     display: block;
 }
 
+.route-time-small {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    display: block;
+    margin-top: 2px;
+}
+
 .flight-stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -181,4 +188,66 @@
     .management-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Manifest Table Styles */
+.manifest-container {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    margin-top: 1.5rem;
+}
+
+.manifest-table-wrapper {
+    overflow-x: auto;
+}
+
+.manifest-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.manifest-table th {
+    background: #f8fafc;
+    padding: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.manifest-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.875rem;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.manifest-table tr:hover {
+    background: #f8fafc;
+}
+
+.passenger-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #eff6ff;
+    color: #1e40af;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin: 2px;
+    border: 1px solid #dbeafe;
+}
+
+.flight-id-badge {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 600;
+    color: #475569;
 }

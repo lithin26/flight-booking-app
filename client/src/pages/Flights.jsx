@@ -26,7 +26,8 @@ const Flights = () => {
   const fetchFlights = async () => {
     try {
       const adminId = localStorage.getItem('userId');
-      const response = await axios.get(`/fetch-flights?adminId=${adminId}`);
+      const flightName = localStorage.getItem('username');
+      const response = await axios.get(`/fetch-flights?adminId=${adminId}&flightName=${flightName}`);
       setFlights(response.data.reverse());
     } catch (err) {
       console.error('Error fetching flights:', err);
@@ -56,48 +57,40 @@ const Flights = () => {
                       <div className="route-point">
                         <span className="route-city-text">{flight.origin}</span>
                         <span className="route-code">{flight.origin.slice(0, 3).toUpperCase()}</span>
+                        <span className="route-time-small">{flight.departureTime}</span>
                       </div>
                       <div className="route-icon" style={{ fontSize: '1.5rem' }}>✈</div>
                       <div className="route-point" style={{ textAlign: 'right' }}>
                         <span className="route-city-text">{flight.destination}</span>
                         <span className="route-code">{flight.destination.slice(0, 3).toUpperCase()}</span>
+                        <span className="route-time-small">{flight.arrivalTime}</span>
                       </div>
                     </div>
 
-                    <div style={{ padding: '1.25rem', borderBottom: '1px solid #f1f5f9' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                          <h3 style={{ margin: 0, fontSize: '1.125rem', fontWeight: '700', color: '#1e293b' }}>{flight.flightName}</h3>
-                          <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Flight ID: {flight.flightId}</span>
+                    <div className="professional-grid-layout" style={{ padding: '1.5rem', borderBottom: '1px solid #f1f5f9' }}>
+                        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem'}}>
+                            <div className="grid-cell">
+                                <label style={{fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase'}}>Flight Identity</label>
+                                <div style={{fontWeight: '700', color: '#1e293b'}}>{flight.flightName}</div>
+                                <div style={{fontSize: '0.75rem', color: '#64748b'}}>{flight.flightId}</div>
+                            </div>
+                            <div className="grid-cell">
+                                <label style={{fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase'}}>Capacity & Load</label>
+                                <div style={{fontWeight: '700', color: '#1e293b'}}>{flight.availableSeats} / {flight.totalSeats}</div>
+                                <div className={`status-badge-inline ${flight.availableSeats > 0 ? 'bg-success' : 'bg-danger'}`} style={{fontSize: '0.65rem', padding: '0 4px', borderRadius: '4px', color:'white'}}>
+                                    {flight.availableSeats > 0 ? 'ACTIVE' : 'FULL'}
+                                </div>
+                            </div>
+                            <div className="grid-cell" style={{textAlign: 'right'}}>
+                                <label style={{fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase'}}>Base Fare</label>
+                                <div style={{fontWeight: '800', fontSize: '1.2rem', color: '#0f172a'}}>₹{flight.basePrice}</div>
+                            </div>
                         </div>
-                        <div className={`status-pill ${flight.availableSeats > 0 ? 'status-approved' : 'status-rejected'}`}>
-                          {flight.availableSeats > 0 ? 'Active' : 'Sold Out'}
-                        </div>
-                      </div>
                     </div>
 
-                    <div className="flight-stats-grid">
-                      <div className="stat-box">
-                        <span className="stat-label">Departure</span>
-                        <span className="stat-value">{flight.departureTime}</span>
-                      </div>
-                      <div className="stat-box">
-                        <span className="stat-label">Arrival</span>
-                        <span className="stat-value">{flight.arrivalTime}</span>
-                      </div>
-                      <div className="stat-box">
-                        <span className="stat-label">Base Price</span>
-                        <span className="stat-value">₹{flight.basePrice}</span>
-                      </div>
-                      <div className="stat-box">
-                        <span className="stat-label">Load (Seats)</span>
-                        <span className="stat-value">{flight.availableSeats} / {flight.totalSeats}</span>
-                      </div>
-                    </div>
-
-                    <div className="card-actions" style={{ padding: '0 1.25rem 1.25rem' }}>
-                      <button className="btn-action btn-approve w-100" style={{ background: '#3b82f6' }} onClick={() => navigate(`/edit-flight/${flight._id}`)}>
-                        Edit Flight Details
+                    <div className="card-actions" style={{ padding: '1.25rem' }}>
+                      <button className="btn btn-outline-primary w-100" style={{ borderRadius: '8px', fontWeight: '600' }} onClick={() => navigate(`/edit-flight/${flight._id}`)}>
+                        Update Fleet Records
                       </button>
                     </div>
                   </div>
@@ -113,4 +106,4 @@ const Flights = () => {
   );
 };
 
-export default Flights;
+export default Flights;
