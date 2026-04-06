@@ -89,76 +89,70 @@ const EditFlight = () => {
         <div className='NewFlightPageContainer' style={{maxWidth: '800px', margin: '0 auto', padding: '2rem', background: 'white', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'}}>
             <h2 style={{fontSize: '1.75rem', fontWeight: '800', marginBottom: '2rem', color: '#0f172a'}}>Operations: Edit Flight Details</h2>
         
-        <span className='newFlightSpan1'>
-          <div className="form-floating mb-3">
-                  <input type="text" className="form-control" id="floatingInputemail" value={flightName} onChange={(e)=> setFlightName(e.target.value)} />
-                  <label htmlFor="floatingInputemail">Flight Name</label>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
+            <div className="form-floating mb-3">
+                  <input type="text" className="form-control" id="flightNameEdit" value={flightName} onChange={(e)=> setFlightName(e.target.value)} />
+                  <label htmlFor="flightNameEdit">Flight Name</label>
             </div>
             <div className="form-floating mb-3">
-                  <input type="text" className="form-control" id="floatingInputmobile" value={flightId} onChange={(e)=> setFlightId(e.target.value)} />
-                  <label htmlFor="floatingInputmobile">Flight Id</label>
+                  <input type="text" className="form-control" id="flightIdEdit" value={flightId} onChange={(e)=> setFlightId(e.target.value)} />
+                  <label htmlFor="flightIdEdit">Flight ID</label>
             </div>
-        </span>
-        <span>
-        <div className="form-floating">
-            <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={origin} onChange={(e)=> setOrigin(e.target.value)} >
-              <option value="">Select</option>
-              <option value="Chennai">Chennai</option>
-              <option value="Banglore">Banglore</option>
-              <option value="Hyderabad">Hyderabad</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Indore">Indore</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Pune">Pune</option>
-              <option value="Trivendrum">Trivendrum</option>
-              <option value="Bhopal">Bhopal</option>
-              <option value="Kolkata">Kolkata</option>
-              <option value="varanasi">varanasi</option>
-              <option value="Jaipur">Jaipur</option>
-            </select>
-            <label htmlFor="floatingSelect">Departure City</label>
-          </div>
             <div className="form-floating mb-3">
-                  <input type="time" className="form-control" id="floatingInputmobile" value={startTime} onChange={(e)=> setStartTime(e.target.value)} />
-                  <label htmlFor="floatingInputmobile">Departure Time</label>
-            </div>
-        </span>
-        <span>
-            <div className="form-floating">
-              <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={destination} onChange={(e)=> setDestination(e.target.value)} >
-                <option value="" selected>Select</option>
+              <select className="form-select" id="originSelect" value={origin} onChange={(e)=> setOrigin(e.target.value)} >
+                <option value="">Select Origin</option>
                 <option value="Chennai">Chennai</option>
                 <option value="Banglore">Banglore</option>
                 <option value="Hyderabad">Hyderabad</option>
                 <option value="Mumbai">Mumbai</option>
-                <option value="Indore">Indore</option>
                 <option value="Delhi">Delhi</option>
                 <option value="Pune">Pune</option>
-                <option value="Trivendrum">Trivendrum</option>
-                <option value="Bhopal">Bhopal</option>
                 <option value="Kolkata">Kolkata</option>
-                <option value="varanasi">varanasi</option>
                 <option value="Jaipur">Jaipur</option>
               </select>
-              <label htmlFor="floatingSelect">Destination City</label>
+              <label htmlFor="originSelect">Departure City</label>
             </div>
             <div className="form-floating mb-3">
-                  <input type="time" className="form-control" id="floatingInputArrivalTime" value={arrivalTime} onChange={(e)=> setArrivalTime(e.target.value)} />
-                  <label htmlFor="floatingInputArrivalTime">Arrival time</label>
-            </div>
-        </span>
-        <span className='newFlightSpan2'>
-          <div className="form-floating mb-3">
-                  <input type="number" className="form-control" id="floatingInpuSeats" value={totalSeats} onChange={(e)=> setTotalSeats(e.target.value)} />
-                  <label htmlFor="floatingInpuSeats">Total seats</label>
+              <select className="form-select" id="destSelect" value={destination} onChange={(e)=> setDestination(e.target.value)} >
+                <option value="">Select Destination</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Banglore">Banglore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Pune">Pune</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Jaipur">Jaipur</option>
+              </select>
+              <label htmlFor="destSelect">Destination City</label>
             </div>
             <div className="form-floating mb-3">
-                  <input type="number" className="form-control" id="floatingInputBasePrice" value={basePrice} onChange={(e)=> setBasePrice(e.target.value)} />
-                  <label htmlFor="floatingInputBasePrice">Base price</label>
+                  <input type="time" className="form-control" id="startTimeEdit" value={startTime} onChange={(e)=> setStartTime(e.target.value)} />
+                  <label htmlFor="startTimeEdit">Departure Time</label>
             </div>
-        </span>
-        
-        <button className='btn btn-primary' onClick={handleSubmit}>Update</button>
+            <div className="form-floating mb-3">
+                  <input type="time" className="form-control" id="arrivalTimeEdit" value={arrivalTime} onChange={(e)=> setArrivalTime(e.target.value)} />
+                  <label htmlFor="arrivalTimeEdit">Arrival Time</label>
+            </div>
+            <div className="form-floating mb-3">
+                  <input type="number" className="form-control" id="totalSeatsEdit" value={totalSeats} onChange={(e)=> setTotalSeats(e.target.value)} />
+                  <label htmlFor="totalSeatsEdit">Total Capacity</label>
+            </div>
+            <div className="form-floating mb-3">
+                  <input type="number" className="form-control" id="basePriceEdit" value={basePrice} onChange={(e)=> setBasePrice(e.target.value)} />
+                  <label htmlFor="basePriceEdit">Base Price (₹)</label>
+            </div>
+        </div>
+
+        <div style={{marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'center'}}>
+            <button 
+                className='btn btn-primary' 
+                style={{borderRadius: '0.75rem', fontWeight: '800', fontSize: '1.1rem', padding: '0.8rem 3rem', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', border: 'none', boxShadow: '0 10px 15px -3px rgba(15, 23, 42, 0.4)'}} 
+                onClick={handleSubmit}
+            >
+                🚀 Save Updated Details
+            </button>
+        </div>
       </div>
       </div>
     )

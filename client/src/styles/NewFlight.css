@@ -15,8 +15,8 @@
     border-radius: 0.7rem;
 }
 .NewFlightPageContainer button{
-    width: 30%;
-    margin-left: 35%;
+    width: auto;
+    margin: 0;
 }
 .NewFlightPageContainer h2{
     margin: 0;
