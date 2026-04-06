@@ -33,7 +33,7 @@ export const fetchBookings = async (req, res) => {
 
 export const bookTicket = async (req, res) => {
   const user = req.user.id;
-  const { flight, flightName, flightId, departure, destination, email, mobile, passengers, totalPrice, journeyDate, journeyTime, seatClass, paymentId, paymentStatus } = req.body;
+  const { flight, flightName, flightId, departure, destination, email, mobile, passengers, totalPrice, journeyDate, journeyTime, arrivalTime, seatClass, paymentId, paymentStatus } = req.body;
 
   try {
     const seatsToBook = passengers.length;
