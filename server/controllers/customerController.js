@@ -61,7 +61,7 @@ export const bookTicket = async (req, res) => {
 
     const booking = new Booking({
       user, flight, flightName, flightId, departure, destination, email, mobile,
-      passengers, totalPrice, journeyDate, journeyTime, seatClass, seats,
+      passengers, totalPrice, journeyDate, journeyTime, arrivalTime, seatClass, seats,
       bookingStatus: 'confirmed', paymentId, paymentStatus
     });
 

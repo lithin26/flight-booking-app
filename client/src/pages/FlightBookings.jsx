@@ -74,7 +74,7 @@ const FlightBookings = () => {
                       <div className="route-icon">✈</div>
                       <div className="route-point">
                         <span className="route-city">{booking.destination}</span>
-                        <span className="route-time">Arrival: --:--</span>
+                        <span className="route-time">Arrival: {booking.arrivalTime || '--:--'}</span>
                       </div>
                     </div>
 
@@ -85,7 +85,7 @@ const FlightBookings = () => {
                       </div>
                       <div className="detail-item">
                         <span className="detail-label">Customer Contact</span>
-                        <span className="detail-value">{booking.mobile}</span>
+                        <span className="detail-value">{booking.mobile} / {booking.email}</span>
                       </div>
                       <div className="detail-item">
                         <span className="detail-label">Class</span>

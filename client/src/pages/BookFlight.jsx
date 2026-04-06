@@ -12,6 +12,7 @@ const BookFlight = () => {
     const [StartCity, setStartCity] = useState('');
     const [destinationCity, setDestinationCity] = useState('');
     const [startTime, setStartTime] = useState();
+    const [arrivalTimeState, setArrivalTimeState] = useState();
     useEffect(()=>{
       fetchFlightData();
     }, [])
@@ -25,6 +26,7 @@ const BookFlight = () => {
         setStartCity(response.data.origin);
         setDestinationCity(response.data.destination);
         setStartTime(response.data.departureTime);
+        setArrivalTimeState(response.data.arrivalTime);
       } catch (err) {
         console.error('Error fetching flight data:', err);
         alert('Could not load flight details. Please go back and try again.');
@@ -128,7 +130,7 @@ const BookFlight = () => {
               if (data.message === "Payment successfully verified") {
                 const inputs = {
                   user: localStorage.getItem('userId'), flight: id, flightName, 
-                  flightId, departure: StartCity, journeyTime: startTime, destination: destinationCity, 
+                  flightId, departure: StartCity, journeyTime: startTime, arrivalTime: arrivalTimeState, destination: destinationCity, 
                   email, mobile, passengers: passengerDetails, totalPrice, 
                   journeyDate, seatClass: coachType,
                   paymentId: data.paymentId,
