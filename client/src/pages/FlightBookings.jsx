@@ -56,7 +56,7 @@ const FlightBookings = () => {
             </div>
           ) : userDetails.approval === 'approved' ? (
             <>
-              <h1>Bookings</h1>
+              <h1>Operator Control: Flight Manifests</h1>
               <div className="user-bookings">
                 {bookings.map((booking) => (
                   <div className="user-booking" key={booking._id}>

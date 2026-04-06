@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import '../styles/Bookings.css';
 
 const AllBookings = () => {
 
@@ -32,7 +33,7 @@ const AllBookings = () => {
 
   return (
     <div className="user-bookingsPage">
-      <h1>Bookings</h1>
+      <h1>Global Booking Records (Admin)</h1>
 
       <div className="user-bookings">
 

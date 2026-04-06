@@ -32,7 +32,7 @@ const Bookings = () => {
 
   return (
     <div className="user-bookingsPage">
-      <h1>Bookings</h1>
+      <h1>My Flight Bookings</h1>
 
       <div className="user-bookings">
         {bookings.filter(booking => booking.user?.toString() === userId).map((booking) => {
