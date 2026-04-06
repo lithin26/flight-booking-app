@@ -8,7 +8,7 @@ import AllUsers from './pages/AllUsers';
 import AllBookings from './pages/AllBookings';
 import AllFlights from './pages/AllFlights';
 import NewFlight from './pages/NewFlight';
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import LoginProtector from './RouteProtectors/LoginProtector';
 import AuthProtector from './RouteProtectors/AuthProtector';
 import BookFlight from './pages/BookFlight';
@@ -23,25 +23,25 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:6001
 
 function App() {
   return (
-  <div className="App">
-    <Navbar/>
-    <Routes>
-      <Route path = '' element={<LandingPage/>}/>
-      <Route path='/auth' element={<LoginProtector><Authenticate/></LoginProtector>}/>
-      <Route path='/book-Flight/:id' element={<AuthProtector><BookFlight/></AuthProtector>}/>
-      <Route path='/bookings' element={<AuthProtector><Bookings/></AuthProtector>}/>
-      <Route path='/admin' element={<AuthProtector><Admin/></AuthProtector>}/>
-      <Route path='/all-users' element={<AuthProtector><AllUsers/></AuthProtector>}/>
-      <Route path='/all-bookings' element={<AuthProtector><AllBookings/></AuthProtector>}/>
-      <Route path='/all-flights' element={<AuthProtector><AllFlights/></AuthProtector>}/>
-      <Route path='/flight-admin' element={<AuthProtector><FlightAdmin/></AuthProtector>}/>
-      <Route path='/flight-bookings' element={<AuthProtector><FlightBookings/></AuthProtector>}/>
-      <Route path='/flights' element={<AuthProtector><Flights/></AuthProtector>}/>
-      <Route path='/new-flight' element={<AuthProtector><NewFlight/></AuthProtector>}/>
-      <Route path='/edit-flight/:id' element={<AuthProtector><EditFlight/></AuthProtector>}/>
-    </Routes>
+    <div className="App">
+      <Navbar />
+      <Routes>
+        <Route path='' element={<LandingPage />} />
+        <Route path='/auth' element={<LoginProtector><Authenticate /></LoginProtector>} />
+        <Route path='/book-Flight/:id' element={<AuthProtector><BookFlight /></AuthProtector>} />
+        <Route path='/bookings' element={<AuthProtector><Bookings /></AuthProtector>} />
+        <Route path='/admin' element={<AuthProtector><Admin /></AuthProtector>} />
+        <Route path='/all-users' element={<AuthProtector><AllUsers /></AuthProtector>} />
+        <Route path='/all-bookings' element={<AuthProtector><AllBookings /></AuthProtector>} />
+        <Route path='/all-flights' element={<AuthProtector><AllFlights /></AuthProtector>} />
+        <Route path='/flight-admin' element={<AuthProtector><FlightAdmin /></AuthProtector>} />
+        <Route path='/flight-bookings' element={<AuthProtector><FlightBookings /></AuthProtector>} />
+        <Route path='/flights' element={<AuthProtector><Flights /></AuthProtector>} />
+        <Route path='/new-flight' element={<AuthProtector><NewFlight /></AuthProtector>} />
+        <Route path='/edit-flight/:id' element={<AuthProtector><EditFlight /></AuthProtector>} />
+      </Routes>
 
-  </div>
+    </div>
   );
 }
 

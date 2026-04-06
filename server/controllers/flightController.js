@@ -54,12 +54,17 @@ export const updateFlight = async (req, res) => {
 export const fetchFlight = async (req, res) => {
   try {
     const { adminId, flightName } = req.query;
-    let filter = {};
-    if (adminId || flightName) {
-      filter = { $or: [] };
-      if (adminId) filter.$or.push({ adminId });
-      if (flightName) filter.$or.push({ flightName });
+    let filterArr = [];
+    if (adminId && adminId !== 'undefined' && adminId.match(/^[0-9a-fA-F]{24}$/)) {
+      filterArr.push({ adminId });
     }
+    if (flightName && flightName !== 'undefined') {
+      const nameParts = flightName.trim().split(' ');
+      // Search for any flight where the name contains any part of the operator's name (more flexible)
+      const regexStr = nameParts.length > 0 ? nameParts[0] : flightName;
+      filterArr.push({ flightName: { $regex: new RegExp(regexStr, 'i') } });
+    }
+    const filter = filterArr.length > 0 ? { $or: filterArr } : {};
     const flights = await Flight.find(filter);
     res.json(flights);
   } catch (err) {
@@ -82,13 +87,17 @@ export const fetchFlightById = async (req, res) => {
 export const fetchBookings = async (req, res) => {
   try {
     const { operatorId, flightName } = req.query;
-    let filter = {};
-    if (operatorId || flightName) {
-      filter = { $or: [] };
-      if (operatorId) filter.$or.push({ operatorId });
-      if (flightName) filter.$or.push({ flightName });
+    let filterArr = [];
+    if (operatorId && operatorId !== 'undefined' && operatorId.match(/^[0-9a-fA-F]{24}$/)) {
+      filterArr.push({ operatorId });
     }
-    const bookings = await Booking.find(filter);
+    if (flightName && flightName !== 'undefined') {
+      const nameParts = flightName.trim().split(' ');
+      const regexStr = nameParts.length > 0 ? nameParts[0] : flightName;
+      filterArr.push({ flightName: { $regex: new RegExp(regexStr, 'i') } });
+    }
+    const filter = filterArr.length > 0 ? { $or: filterArr } : {};
+    const bookings = await Booking.find(filter).populate('flight');
     res.json(bookings);
   } catch (err) {
     console.log(err);

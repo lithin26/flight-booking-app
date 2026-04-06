@@ -4,6 +4,8 @@
     padding: 2rem 5%;
     background: #f8fafc;
     min-height: 100vh;
+    max-width: 1250px;
+    margin: 0 auto;
 }
 
 .admin-header {
@@ -24,8 +26,9 @@
 /* Management Grid */
 .management-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 380px));
     gap: 1.5rem;
+    justify-content: center;
 }
 
 /* User Card Styling */
