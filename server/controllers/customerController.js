@@ -4,7 +4,27 @@ import { Flight } from '../models/flightSchema.js';
 export const fetchBookings = async (req, res) => {
   try {
     const bookings = await Booking.find();
-    res.status(200).json(bookings);
+    const currentTime = new Date();
+    let updated = false;
+
+    // Dynamically check and update status for each booking
+    for (const booking of bookings) {
+      if (booking.bookingStatus === 'confirmed') {
+        const journeyDate = new Date(booking.journeyDate);
+        const [hours, minutes] = booking.journeyTime.split(':').map(Number);
+        journeyDate.setHours(hours, minutes, 0, 0);
+
+        if (journeyDate < currentTime) {
+          booking.bookingStatus = 'completed';
+          await booking.save();
+          updated = true;
+        }
+      }
+    }
+
+    // If any status was updated, we fetch the updated list to be sure (or just return the modified array)
+    const finalBookings = updated ? await Booking.find() : bookings;
+    res.status(200).json(finalBookings);
   } catch (err) {
     console.error('Error fetching bookings:', err);
     res.status(500).json({ message: 'Error fetching bookings' });

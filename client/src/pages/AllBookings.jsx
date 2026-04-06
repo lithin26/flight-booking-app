@@ -76,6 +76,9 @@ const AllBookings = () => {
               {booking.bookingStatus === 'cancelled' ?
                 <p style={{color: "red"}}><b>Booking status:</b> {booking.bookingStatus}</p>
                 :
+                booking.bookingStatus === 'completed' ?
+                <p style={{color: "green"}}><b>Booking status:</b> {booking.bookingStatus}</p>
+                :
                 <p><b>Booking status:</b> {booking.bookingStatus}</p>
               }
             {booking.bookingStatus === 'confirmed' ?
