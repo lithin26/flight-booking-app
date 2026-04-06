@@ -97,13 +97,13 @@ const NewFlight = () => {
                           <label htmlFor="floatingInputemail">Flight Name</label>
                     </div>
                     <div className="form-floating mb-3">
-                          <input type="text" className="form-control" id="floatingInputmobile" value={flightId} onChange={(e)=> setFlightId(e.target.value)} />
-                          <label htmlFor="floatingInputmobile">Flight Id</label>
+                          <input type="text" className="form-control" id="floatingInputFlightId" value={flightId} onChange={(e)=> setFlightId(e.target.value)} />
+                          <label htmlFor="floatingInputFlightId">Flight Id</label>
                     </div>
                 </span>
                 <span>
                 <div className="form-floating">
-                    <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={origin} onChange={(e)=> setOrigin(e.target.value)} >
+                    <select className="form-select form-select-sm mb-3" id="floatingSelectOrigin" aria-label="Departure City" value={origin} onChange={(e)=> setOrigin(e.target.value)} >
                       <option value="" selected>Select</option>
                       <option value="Chennai">Chennai</option>
                       <option value="Banglore">Banglore</option>
@@ -118,16 +118,16 @@ const NewFlight = () => {
                       <option value="varanasi">varanasi</option>
                       <option value="Jaipur">Jaipur</option>
                     </select>
-                    <label htmlFor="floatingSelect">Departure City</label>
+                    <label htmlFor="floatingSelectOrigin">Departure City</label>
                   </div>
                     <div className="form-floating mb-3">
-                          <input type="time" className="form-control" id="floatingInputmobile" value={startTime} onChange={(e)=> setStartTime(e.target.value)} />
-                          <label htmlFor="floatingInputmobile">Departure Time</label>
+                          <input type="time" className="form-control" id="floatingInputStartTime" value={startTime} onChange={(e)=> setStartTime(e.target.value)} />
+                          <label htmlFor="floatingInputStartTime">Departure Time</label>
                     </div>
                 </span>
                 <span>
                     <div className="form-floating">
-                      <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={destination} onChange={(e)=> setDestination(e.target.value)} >
+                      <select className="form-select form-select-sm mb-3" id="floatingSelectDestinationNew" aria-label="Destination City" value={destination} onChange={(e)=> setDestination(e.target.value)} >
                         <option value="">Select</option>
                         <option value="Chennai">Chennai</option>
                         <option value="Banglore">Banglore</option>
@@ -142,7 +142,7 @@ const NewFlight = () => {
                         <option value="varanasi">varanasi</option>
                         <option value="Jaipur">Jaipur</option>
                       </select>
-                      <label htmlFor="floatingSelect">Destination City</label>
+                      <label htmlFor="floatingSelectDestinationNew">Destination City</label>
                     </div>
                     <div className="form-floating mb-3">
                           <input type="time" className="form-control" id="floatingInputArrivalTime" value={arrivalTime} onChange={(e)=> setArrivalTime(e.target.value)} />

@@ -103,8 +103,9 @@ const LandingPage = () => {
           <div className='Flight-search-container-body'>
 
             <div className="form-floating">
-              <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={departure} onChange={(e) => setDeparture(e.target.value)}>
+              <select className="form-select form-select-sm mb-3" id="floatingSelectDeparture" aria-label="Departure City" value={departure} onChange={(e) => setDeparture(e.target.value)}>
                 <option value="" selected>Select</option>
+                {/* ... options ... */}
                 <option value="Chennai">Chennai</option>
                 <option value="Banglore">Banglore</option>
                 <option value="Hyderabad">Hyderabad</option>
@@ -118,10 +119,10 @@ const LandingPage = () => {
                 <option value="varanasi">varanasi</option>
                 <option value="Jaipur">Jaipur</option>
               </select>
-              <label htmlFor="floatingSelect">Departure City</label>
+              <label htmlFor="floatingSelectDeparture">Departure City</label>
             </div>
             <div className="form-floating">
-              <select className="form-select form-select-sm mb-3" aria-label=".form-select-sm example" value={destination} onChange={(e) => setDestination(e.target.value)}>
+              <select className="form-select form-select-sm mb-3" id="floatingSelectDestination" aria-label="Destination City" value={destination} onChange={(e) => setDestination(e.target.value)}>
                 <option value="" selected>Select</option>
                 <option value="Chennai">Chennai</option>
                 <option value="Banglore">Banglore</option>
@@ -136,7 +137,7 @@ const LandingPage = () => {
                 <option value="varanasi">varanasi</option>
                 <option value="Jaipur">Jaipur</option>
               </select>
-              <label htmlFor="floatingSelect">Destination City</label>
+              <label htmlFor="floatingSelectDestination">Destination City</label>
             </div>
             <div className="form-floating mb-3">
               <input type="date" className="form-control" id="floatingInputstartDate" value={departureDate} onChange={(e) => setDepartureDate(e.target.value)} />

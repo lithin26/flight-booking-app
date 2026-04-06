@@ -192,8 +192,8 @@ const BookFlight = () => {
                   <label htmlFor="floatingInputemail">Email</label>
             </div>
             <div className="form-floating mb-3">
-                  <input type="text" className="form-control" id="floatingInputmobile" value={mobile} onChange={(e)=> setMobile(e.target.value)} />
-                  <label htmlFor="floatingInputmobile">Mobile</label>
+                  <input type="text" className="form-control" id="floatingInputmobileBook" value={mobile} onChange={(e)=> setMobile(e.target.value)} />
+                  <label htmlFor="floatingInputmobileBook">Mobile</label>
             </div>
         </span>
         <span className='span3'>
