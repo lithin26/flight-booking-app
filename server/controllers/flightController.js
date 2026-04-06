@@ -2,19 +2,20 @@ import { Flight } from '../models/flightSchema.js';
 import { Booking } from '../models/bookingSchema.js';
 
 export const addFlight = async (req, res) => {
-  const { flightName, flightId, origin, destination, departureTime, arrivalTime, basePrice, totalSeats } = req.body;
-  try {
-    const flight = new Flight({
-      flightName,
-      flightId,
-      origin,
-      destination,
-      departureTime,
-      arrivalTime,
-      basePrice,
-      totalSeats,
-      availableSeats: totalSeats  // explicitly set here
-    });
+    const { flightName, flightId, origin, destination, departureTime, arrivalTime, basePrice, totalSeats, adminId } = req.body;
+    try {
+      const flight = new Flight({
+        flightName,
+        flightId,
+        origin,
+        destination,
+        departureTime,
+        arrivalTime,
+        basePrice,
+        totalSeats,
+        availableSeats: totalSeats,
+        adminId
+      });
     await flight.save();
     res.json({ message: 'flight added' });
   } catch (err) {
@@ -52,7 +53,9 @@ export const updateFlight = async (req, res) => {
 
 export const fetchFlight = async (req, res) => {
   try {
-    const flights = await Flight.find();
+    const { adminId } = req.query;
+    const filter = adminId ? { adminId } : {};
+    const flights = await Flight.find(filter);
     res.json(flights);
   } catch (err) {
     console.log(err);

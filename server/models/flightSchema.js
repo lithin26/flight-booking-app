@@ -8,7 +8,8 @@ const flightSchema = new mongoose.Schema({
     arrivalTime: { type: String, required: true },
     basePrice: { type: Number, required: true },
     totalSeats: { type: Number, required: true },
-    availableSeats: { type: Number, required: true }
+    availableSeats: { type: Number, required: true },
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 flightSchema.pre('save', function(next) {

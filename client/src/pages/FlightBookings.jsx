@@ -24,10 +24,10 @@ const FlightBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const operatorName = localStorage.getItem('username');
+      const userId = localStorage.getItem('userId');
       const response = await axios.get('/fetch-bookings');
       // Only show bookings for this operator's flights
-      const myBookings = response.data.filter(b => b.flightName === operatorName);
+      const myBookings = response.data.filter(b => b.operatorId === userId);
       setBookings(myBookings.reverse());
     } catch (err) {
       console.error('Error fetching bookings:', err);

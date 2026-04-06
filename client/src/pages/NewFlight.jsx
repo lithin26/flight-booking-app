@@ -49,7 +49,8 @@ const NewFlight = () => {
       }
   
       const inputs = {flightName, flightId, origin, destination, 
-                        departureTime: startTime, arrivalTime, basePrice, totalSeats};
+                        departureTime: startTime, arrivalTime, basePrice, totalSeats,
+                        adminId: localStorage.getItem('userId')};
   
       await axios.post('/add-flight', inputs).then(
         async (response) => {

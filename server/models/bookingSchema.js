@@ -19,6 +19,7 @@ const bookingSchema = new mongoose.Schema({
     journeyTime: { type: String },
     arrivalTime: { type: String },
     seatClass: { type: String},
+    operatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     bookingStatus: {type: String, default: "confirmed"},
     paymentId: { type: String },
     paymentStatus: { type: String, default: "completed" }
