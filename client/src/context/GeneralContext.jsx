@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 export const GeneralContext = createContext();
 
 const GeneralContextProvider = ({ children }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
+  const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [password, setPassword] = useState('');
-  const [usertype, setUsertype] = useState('');
+  const [usertype, setUsertype] = useState(localStorage.getItem('userType') || '');
   const [ticketBookingDate, setTicketBookingDate] = useState();
 
   const navigate = useNavigate();
@@ -33,15 +33,20 @@ const GeneralContextProvider = ({ children }) => {
     return () => axios.interceptors.request.eject(interceptor);
   }, []);
 
-  // ✅ Auto-logout if token is missing (except on login/register pages)
+  // ✅ Auto-logout if token is missing (except on login/register/landing pages)
   useEffect(() => {
     const token = localStorage.getItem('token');
     const currentPath = window.location.pathname;
-
-    const isAuthPage = ['/auth','/'].includes(currentPath);
+    const isAuthPage = ['/auth', '/', '/login', '/register'].includes(currentPath);
 
     if (!token && !isAuthPage) {
-      logout(); // Log out and redirect if token is missing
+      // Small delay to prevent race conditions during page load
+      const timeout = setTimeout(() => {
+        if (!localStorage.getItem('token')) {
+          logout();
+        }
+      }, 500);
+      return () => clearTimeout(timeout);
     }
   }, []);
 
