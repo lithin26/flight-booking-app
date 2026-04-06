@@ -85,11 +85,9 @@ const EditFlight = () => {
     }
   
     return (
-      <div className='NewFlightPage'>
-  
-        <div className="NewFlightPageContainer">
-  
-          <h2>Edit Flight</h2>
+      <div className='admin-dashboard-container'>
+        <div className='NewFlightPageContainer' style={{maxWidth: '800px', margin: '0 auto', padding: '2rem', background: 'white', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'}}>
+            <h2 style={{fontSize: '1.75rem', fontWeight: '800', marginBottom: '2rem', color: '#0f172a'}}>Operations: Edit Flight Details</h2>
         
         <span className='newFlightSpan1'>
           <div className="form-floating mb-3">

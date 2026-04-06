@@ -60,7 +60,7 @@ const NewFlight = () => {
     }
   
     return (
-      <div className='NewFlightPage'>
+      <div className='admin-dashboard-container'>
         {userDetails ? (
         <>
           {userDetails.approval === 'not-approved' ? (

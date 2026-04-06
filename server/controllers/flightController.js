@@ -59,10 +59,10 @@ export const fetchFlight = async (req, res) => {
       filterArr.push({ adminId });
     }
     if (flightName && flightName !== 'undefined') {
-      const nameParts = flightName.trim().split(' ');
-      // Search for any flight where the name contains any part of the operator's name (more flexible)
-      const regexStr = nameParts.length > 0 ? nameParts[0] : flightName;
-      filterArr.push({ flightName: { $regex: new RegExp(regexStr, 'i') } });
+      const parts = flightName.trim().split(/\s+/);
+      parts.forEach(p => {
+        if (p.length > 2) filterArr.push({ flightName: { $regex: new RegExp(p, 'i') } });
+      });
     }
     const filter = filterArr.length > 0 ? { $or: filterArr } : {};
     const flights = await Flight.find(filter);
@@ -92,9 +92,10 @@ export const fetchBookings = async (req, res) => {
       filterArr.push({ operatorId });
     }
     if (flightName && flightName !== 'undefined') {
-      const nameParts = flightName.trim().split(' ');
-      const regexStr = nameParts.length > 0 ? nameParts[0] : flightName;
-      filterArr.push({ flightName: { $regex: new RegExp(regexStr, 'i') } });
+      const parts = flightName.trim().split(/\s+/);
+      parts.forEach(p => {
+        if (p.length > 2) filterArr.push({ flightName: { $regex: new RegExp(p, 'i') } });
+      });
     }
     const filter = filterArr.length > 0 ? { $or: filterArr } : {};
     const bookings = await Booking.find(filter).populate('flight');
