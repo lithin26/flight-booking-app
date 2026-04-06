@@ -38,55 +38,76 @@ const Bookings = () => {
         {bookings.filter(booking => booking.user?.toString() === userId).map((booking) => {
           return (
             <div className="user-booking" key={booking._id}>
-              <p><b>Booking ID:</b> {booking._id}</p>
-              <span>
-                <p><b>Mobile:</b> {booking.mobile}</p>
-                <p><b>Email:</b> {booking.email}</p>
-              </span>
-              <span>
-                <p><b>Flight Id:</b> {booking.flightId}</p>
-                <p><b>Flight name:</b> {booking.flightName}</p>
-              </span>
-              <span>
-                <p><b>On-boarding:</b> {booking.departure}</p>
-                <p><b>Destination:</b> {booking.destination}</p>
-              </span>
-              <span>
-                <div>
-                  <p><b>Passengers:</b></p>
-                  <ol>
-                    {booking.passengers.map((passenger, i) => {
-                      return (
-                        <li key={i}><p><b>Name:</b> {passenger.name}, <b>Age:</b> {passenger.age}</p></li>
-                      );
-                    })}
-                  </ol>
+              
+              <div className="booking-header">
+                <span className="booking-id">ID: {booking._id.slice(-8).toUpperCase()}</span>
+                <span className="booking-date">Booked: {booking.bookingDate?.slice(0, 10)}</span>
+              </div>
+
+              <div className="booking-route">
+                <div className="route-point">
+                  <span className="route-city">{booking.departure}</span>
+                  <span className="route-time">{booking.journeyTime}</span>
                 </div>
-                {booking.bookingStatus === 'confirmed' ? <p><b>Seats:</b> {booking.seats}</p> : ""}
-              </span>
-              <span>
-                <p><b>Booking date:</b> {booking.bookingDate?.slice(0,10)}</p>
-                <p><b>Journey date:</b> {booking.journeyDate?.slice(0,10)}</p>
-              </span>
-              <span>
-                <p><b>Journey Time:</b> {booking.journeyTime}</p>
-                <p><b>Total price:</b> {booking.totalPrice}</p>
-              </span>
-              {booking.bookingStatus === 'cancelled' ?
-                <p style={{color: "red"}}><b>Booking status:</b> {booking.bookingStatus}</p>
-                :
-                booking.bookingStatus === 'completed' ?
-                <p style={{color: "green"}}><b>Booking status:</b> {booking.bookingStatus}</p>
-                :
-                <p><b>Booking status:</b> {booking.bookingStatus}</p>
-              }
-              {booking.bookingStatus === 'confirmed' ?
-                <div>
-                  <button className="btn btn-danger" onClick={() => cancelTicket(booking._id)}>Cancel Ticket</button>
+                <div className="route-icon">✈</div>
+                <div className="route-point">
+                  <span className="route-city">{booking.destination}</span>
+                  <span className="route-time">Arrival: --:--</span>
                 </div>
-                :
-                null
-              }
+              </div>
+
+              <div className="booking-details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">Flight</span>
+                  <span className="detail-value">{booking.flightName} ({booking.flightId})</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Journey Date</span>
+                  <span className="detail-value">{booking.journeyDate?.slice(0, 10)}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Class</span>
+                  <span className="detail-value" style={{textTransform: 'capitalize'}}>{booking.seatClass}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Seats</span>
+                  <span className="detail-value">{booking.seats || 'N/A'}</span>
+                </div>
+              </div>
+
+              <div className="booking-passengers">
+                <span className="detail-label">Passengers</span>
+                <div className="passenger-list">
+                  {booking.passengers.map((passenger, i) => (
+                    <div key={i} className="passenger-item">
+                      <span>{passenger.name}</span>
+                      <span style={{color: '#94a3b8'}}>Age: {passenger.age}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="booking-footer">
+                <div className={`status-badge status-${booking.bookingStatus}`}>
+                  {booking.bookingStatus}
+                </div>
+                <div className="total-price-box">
+                  <span className="detail-label">Total Paid</span>
+                  <div className="price">₹{booking.totalPrice}</div>
+                </div>
+              </div>
+
+              {booking.bookingStatus === 'confirmed' && (
+                <div style={{padding: '0 1.5rem 1.5rem'}}>
+                  <button 
+                    className="btn btn-outline-danger w-100" 
+                    style={{borderRadius: '0.5rem', fontWeight: '600'}}
+                    onClick={() => cancelTicket(booking._id)}
+                  >
+                    Cancel Booking
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}
