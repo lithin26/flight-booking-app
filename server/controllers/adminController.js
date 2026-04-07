@@ -48,3 +48,15 @@ export const fetchAllUsers =  async (req, res)=>{
             res.status(500).json({message: 'error occured'});
         }
     }
+
+export const DeleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findByIdAndDelete(id);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json({ message: 'User deleted successfully from database' });
+    } catch (err) {
+        console.error("Delete Error:", err);
+        res.status(500).json({ message: 'Server Error during deletion' });
+    }
+}

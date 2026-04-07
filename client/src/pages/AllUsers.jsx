@@ -39,6 +39,19 @@ const AllUsers = () => {
     }
   }
 
+  const handleDelete = async (id) => {
+    if (window.confirm("ARE YOU SURE? This will permanently delete the user account from the database!")) {
+      try {
+        await axios.delete(`/delete-user/${id}`);
+        alert('User deleted successfully!');
+        fetchUsers();
+      } catch (err) {
+        console.error("Delete Error:", err);
+        alert('Error deleting user!');
+      }
+    }
+  }
+
   return (
     <div className="admin-dashboard-container">
       <div className="admin-header">
@@ -60,6 +73,9 @@ const AllUsers = () => {
               <div className="detail-row">
                 <span style={{color: '#94a3b8', width: '20px'}}>✉</span>
                 <span>{user.email}</span>
+              </div>
+              <div className="card-actions" style={{justifyContent: 'center', marginTop: '1rem'}}>
+                  <button className="btn btn-outline-danger btn-sm" style={{padding: '0.4rem 2rem', fontWeight: '700'}} onClick={() => handleDelete(user._id)}>🗑️ Delete Account</button>
               </div>
             </div>
           ))}
@@ -92,6 +108,7 @@ const AllUsers = () => {
                 {user.approval !== 'rejected' && (
                   <button className="btn-action btn-reject" onClick={() => handleReject(user._id)}>Reject</button>
                 )}
+                <button className="btn-action" style={{borderColor: '#ef4444', color: '#ef4444', background: 'transparent'}} onClick={() => handleDelete(user._id)}>Delete</button>
               </div>
             </div>
           ))}
