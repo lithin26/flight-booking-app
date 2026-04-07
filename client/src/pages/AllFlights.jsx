@@ -13,6 +13,19 @@ const AllFlights = () => {
         console.error('Error fetching flights:', err);
       }
     }
+
+    const handleDelete = async (id) => {
+      if (window.confirm("ARE YOU SURE? This will permanently remove this flight from the registry!")) {
+        try {
+          await axios.delete(`/delete-flight/${id}`);
+          alert('Flight removed successfully!');
+          fetchFlights();
+        } catch (err) {
+          console.error("Delete Error:", err);
+          alert('Error removing flight!');
+        }
+      }
+    }
       
     useEffect(()=>{
       fetchFlights();
@@ -64,6 +77,9 @@ const AllFlights = () => {
                           <div style={{fontSize: '0.65rem', color: '#94a3b8'}}>Per Economy Seat</div>
                       </div>
                   </div>
+              </div>
+              <div style={{padding: '1rem', display: 'flex', justifyContent: 'center', background: '#f8fafc', borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem'}}>
+                  <button className='btn btn-outline-danger btn-sm' style={{fontWeight: '700', padding: '0.4rem 2.5rem'}} onClick={() => handleDelete(flight._id)}>🗑️ Remove Flight</button>
               </div>
             </div>
           ))}

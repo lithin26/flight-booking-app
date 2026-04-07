@@ -105,3 +105,15 @@ export const fetchBookings = async (req, res) => {
     res.status(500).json({ message: 'Server error fetching bookings' });
   }
 };
+
+export const deleteFlight = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const flight = await Flight.findByIdAndDelete(id);
+    if (!flight) return res.status(404).json({ message: 'Flight not found' });
+    res.json({ message: 'Flight deleted successfully' });
+  } catch (err) {
+    console.error("Delete Error:", err);
+    res.status(500).json({ message: 'Server Error during flight deletion' });
+  }
+}
