@@ -12,25 +12,35 @@ export const createOrder = async (req, res) => {
     const key_id = process.env.RAZORPAY_KEY_ID?.trim();
     const key_secret = process.env.RAZORPAY_KEY_SECRET?.trim();
 
+    if (!key_id || !key_secret) {
+      console.error("Razorpay Payment Error: Missing credentials in .env");
+      return res.status(500).json({ message: "Razorpay credentials not configured on server" });
+    }
+
     const instance = new Razorpay({
       key_id,
       key_secret,
     });
 
+    // Ensure amount is an integer (paise)
     const options = {
-      amount: amount * 100, // amount in smallest currency unit (paise)
+      amount: Math.round(Number(amount) * 100), 
       currency: "INR",
       receipt: `receipt_order_${Date.now()}`
     };
 
+    console.log(`Initializing Razorpay Order: ${options.amount} paise`);
     const order = await instance.orders.create(options);
 
-    if (!order) return res.status(500).json({ message: "Some error occured" });
+    if (!order) {
+      console.error("Razorpay Error: Order creation returned empty result");
+      return res.status(500).json({ message: "Order creation failed" });
+    }
 
     res.json(order);
   } catch (error) {
-    console.error("Order Creation Error: ", error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Razorpay Controller Error: ", error);
+    res.status(500).json({ message: "Failed to create payment order", error: error.message });
   }
 };
 

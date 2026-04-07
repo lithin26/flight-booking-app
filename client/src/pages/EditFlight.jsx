@@ -144,10 +144,10 @@ const EditFlight = () => {
             </div>
         </div>
 
-        <div style={{marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'center'}}>
+        <div style={{marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', width: '100%'}}>
             <button 
                 className='btn btn-primary' 
-                style={{borderRadius: '0.75rem', fontWeight: '800', fontSize: '1.1rem', padding: '0.8rem 3rem', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', border: 'none', boxShadow: '0 10px 15px -3px rgba(15, 23, 42, 0.4)'}} 
+                style={{display: 'block', margin: '0 auto !important', borderRadius: '0.75rem', fontWeight: '800', fontSize: '1.1rem', padding: '0.8rem 4rem', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', border: 'none', boxShadow: '0 10px 15px -3px rgba(15, 23, 42, 0.4)'}} 
                 onClick={handleSubmit}
             >
                 🚀 Save Updated Details

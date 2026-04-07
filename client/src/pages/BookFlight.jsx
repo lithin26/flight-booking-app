@@ -101,22 +101,29 @@ const BookFlight = () => {
   
       const res = await loadRazorpayScript();
       if (!res) {
-        alert('Razorpay SDK failed to load. Are you online?');
+        alert('Payment system failed to load. Please check your connection.');
         return;
       }
 
       try {
+        // Enforce integer amount for safety
+        const paymentAmount = Math.round(totalPrice);
+
         const orderResponse = await axios.post('/create-razorpay-order', {
-          amount: totalPrice
+          amount: paymentAmount
         });
         const order = orderResponse.data;
 
+        if (!order || !order.id) {
+          throw new Error("Invalid order data received from server");
+        }
+
         const options = {
-          key: "rzp_test_SZHA97faCPlVc9", 
+          key: "rzp_test_SZHA97faCPlVc9", // Ensure this matches your RAZORPAY_KEY_ID in .env
           amount: order.amount,
           currency: "INR",
           name: "Flight Booking Platform",
-          description: `Tickets exactly for ${flightName}`,
+          description: `Flight Reservation: ${flightName} (${flightId})`,
           order_id: order.id,
           handler: async function (response) {
             try {
@@ -131,7 +138,7 @@ const BookFlight = () => {
                 const inputs = {
                   user: localStorage.getItem('userId'), flight: id, flightName, 
                   flightId, departure: StartCity, journeyTime: startTime, arrivalTime: arrivalTimeState, destination: destinationCity, 
-                  email, mobile, passengers: passengerDetails, totalPrice, 
+                  email, mobile, passengers: passengerDetails, totalPrice: paymentAmount, 
                   journeyDate, seatClass: coachType,
                   paymentId: data.paymentId,
                   paymentStatus: "completed"
@@ -139,25 +146,26 @@ const BookFlight = () => {
                 
                 await axios.post('/book-ticket', inputs).then(
                   (response)=>{
-                    alert("Booking & Payment Successful!");
+                    alert("✅ Booking & Payment Successful!");
                     navigate('/bookings');
                   }
                 ).catch((err)=>{
-                  alert("Booking tracking failed! Support has been notified.");
+                  console.error("Post-payment booking failure:", err);
+                  alert("⚠️ Payment was successful but booking record failed! Please contact support with ID: " + data.paymentId);
                 })
               }
             } catch (verifyError) {
-              console.error(verifyError);
-              alert('Payment Verification Failed!');
+              console.error("Verification error:", verifyError);
+              alert('⚠️ Payment verification failed. Please check your bank statement before trying again.');
             }
           },
           prefill: {
-            name: "Customer",
-            email: email,
-            contact: mobile,
+            name: passengerDetails[0]?.name || "Customer",
+            email: email || "",
+            contact: mobile || "",
           },
           theme: {
-            color: "#3399cc",
+            color: "#1c527e", // Matches your navbar brand color
           },
         };
 
@@ -165,8 +173,9 @@ const BookFlight = () => {
         paymentObject.open();
 
       } catch (err) {
-        console.error("Order creation failed", err);
-        alert("Could not initialize payment. Ensure server has Razorpay credentials configured.");
+        console.error("Payment initialization failed:", err);
+        const errorMsg = err.response?.data?.message || "Could not initialize payment. Please try again later.";
+        alert(errorMsg);
       }
     }
   
