@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import '../styles/LandingPage.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +12,9 @@ const LandingPage = () => {
   const [departureDate, setDepartureDate] = useState();
   const [returnDate, setReturnDate] = useState();
   const navigate = useNavigate();
+  
+  const resultsRef = useRef(null);
+
   useEffect(() => {
     if (localStorage.getItem('userType') === 'admin') {
       navigate('/admin');
@@ -21,6 +24,13 @@ const LandingPage = () => {
   }, []);
 
   const [Flights, setFlights] = useState([]);
+
+  const scrollToResults = () => {
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  };
+
   const fetchFlights = async () => {
     if (departure !== "" && destination !== "" && departure === destination) {
       setError("Departure and Destination cannot be the same");
@@ -35,12 +45,13 @@ const LandingPage = () => {
         const date2 = new Date(returnDate);
         if (date1 >= date && date2 > date1) {
           setError("");
-          await axios.get('/fetch-flights').then(
-            (response) => {
-              setFlights(response.data);
-              console.log(response.data)
-            }
-          )
+          try {
+            const response = await axios.get('/fetch-flights');
+            setFlights(response.data);
+            scrollToResults();
+          } catch (err) {
+            setError("Error fetching flights. Please try again.");
+          }
         } else { setError("Please check the dates"); }
       } else { setError("Please fill all the inputs"); }
     } else {
@@ -50,12 +61,13 @@ const LandingPage = () => {
         const date1 = new Date(departureDate);
         if (date1 >= date) {
           setError("");
-          await axios.get('/fetch-flights').then(
-            (response) => {
-              setFlights(response.data);
-              console.log(response.data)
-            }
-          )
+          try {
+            const response = await axios.get('/fetch-flights');
+            setFlights(response.data);
+            scrollToResults();
+          } catch (err) {
+            setError("Error fetching flights. Please try again.");
+          }
         } else { setError("Please check the dates"); }
       } else { setError("Please fill all the inputs"); }
     }
@@ -79,8 +91,6 @@ const LandingPage = () => {
     }
   }
 
-
-
   return (
     <div className="landingPage">
       <div className="landingHero">
@@ -91,9 +101,9 @@ const LandingPage = () => {
 
         <div className="Flight-search-container glass-panel ani-slide-up" style={{ animationDelay: '0.2s' }}>
           <h3>Journey details</h3>
-          <div className="form-check form-switch mb-3">
-            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: 'white', fontWeight: '500' }}>Return journey</label>
+          <div className="form-check form-switch mb-4 d-flex align-items-center gap-3" style={{ paddingLeft: '2.5rem' }}>
+            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ cursor: 'pointer', height: '1.6rem', width: '3.2rem', margin: 0 }} checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: 'white', fontWeight: '600', cursor: 'pointer', fontSize: '1.05rem', marginTop: '2px' }}>Return journey</label>
           </div>
           
           <div className='Flight-search-container-body'>
@@ -148,75 +158,67 @@ const LandingPage = () => {
             )}
 
             <div style={{ minWidth: 'auto', flex: '0 0 auto' }}>
-              <button className="btn btn-primary" style={{ height: '3.5rem', minWidth: '120px', borderRadius: '0.75rem', fontWeight: '700' }} onClick={fetchFlights}>
+              <button className="btn btn-primary" style={{ height: '3.5rem', minWidth: '130px', borderRadius: '0.75rem', fontWeight: '800', fontSize: '1.1rem' }} onClick={fetchFlights}>
                 Search
               </button>
             </div>
           </div>
-          {error && <p className="mt-2" style={{ color: '#fb7185', fontSize: '0.9rem', textAlign: 'left' }}>{error}</p>}
+          {error && <p className="mt-2" style={{ color: '#fb7185', fontSize: '0.9rem', textAlign: 'left', fontWeight: '500' }}>{error}</p>}
         </div>
 
-        {Flights.length > 0
-          ? (() => {
-            const filteredFlights = checkBox
-              ? Flights.filter(Flight =>
-                (Flight.origin === departure && Flight.destination === destination) ||
-                (Flight.origin === destination && Flight.destination === departure)
-              )
-              : Flights.filter(Flight =>
-                Flight.origin === departure && Flight.destination === destination
-              );
+        <div ref={resultsRef} style={{ paddingTop: '1rem' }}>
+          {Flights.length > 0
+            ? (() => {
+              const filteredFlights = checkBox
+                ? Flights.filter(Flight =>
+                  (Flight.origin === departure && Flight.destination === destination) ||
+                  (Flight.origin === destination && Flight.destination === departure)
+                )
+                : Flights.filter(Flight =>
+                  Flight.origin === departure && Flight.destination === destination
+                );
 
-            return filteredFlights.length > 0 ? (
-              <div className="availableFlightsContainer">
-                <h1>Available Flights</h1>
-                <div className="Flights">
-                  {filteredFlights.map((Flight) => (
-                    <div className="Flight" key={Flight._id}>
-                      <div>
-                        <p><b>{Flight.flightName}</b></p>
-                        <p><b>Flight Number:</b> {Flight.flightId}</p>
+              return filteredFlights.length > 0 ? (
+                <div className="availableFlightsContainer ani-slide-up">
+                  <h1>Available Flights</h1>
+                  <div className="Flights">
+                    {filteredFlights.map((Flight) => (
+                      <div className="Flight" key={Flight._id}>
+                        <div>
+                          <p><b>{Flight.flightName}</b></p>
+                          <p><b>Flight Number:</b> {Flight.flightId}</p>
+                        </div>
+                        <div>
+                          <p><b>From:</b> {Flight.origin}</p>
+                          <p><b>Departure Time:</b> {Flight.departureTime}</p>
+                        </div>
+                        <div>
+                          <p><b>To:</b> {Flight.destination}</p>
+                          <p><b>Arrival Time:</b> {Flight.arrivalTime}</p>
+                        </div>
+                        <div>
+                          <p><b>Starting Price:</b> ₹{Flight.basePrice}</p>
+                          <p><b>Available Seats:</b> {Flight.availableSeats}</p>
+                        </div>
+                        {Flight.availableSeats > 0 ? (
+                          <button className="button btn btn-primary" onClick={() => handleTicketBooking(Flight._id, Flight.origin, Flight.destination)}>Book Now</button>
+                        ) : (
+                          <button className="button btn btn-secondary" disabled>Fully Booked</button>
+                        )}
                       </div>
-                      <div>
-                        <p><b>From:</b> {Flight.origin}</p>
-                        <p><b>Departure Time:</b> {Flight.departureTime}</p>
-                      </div>
-                      <div>
-                        <p><b>To:</b> {Flight.destination}</p>
-                        <p><b>Arrival Time:</b> {Flight.arrivalTime}</p>
-                      </div>
-                      <div>
-                        <p><b>Starting Price:</b> ₹{Flight.basePrice}</p>
-                        <p><b>Available Seats:</b> {Flight.availableSeats}</p>
-                      </div>
-                      {Flight.availableSeats > 0 ? (
-                        <button className="button btn btn-primary" onClick={() => handleTicketBooking(Flight._id, Flight.origin, Flight.destination)}>Book Now</button>
-                      ) : (
-                        <button className="button btn btn-secondary" disabled>Fully Booked</button>
-                      )}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="availableFlightsContainer">
-                <h1>No Flights Found</h1>
-                <p>No flights available for the selected route and date.</p>
-              </div>
-            );
-          })()
-          : <></>
-        }
-
-
-
-
-
-
-
-
-
-
+              ) : (
+                <div className="availableFlightsContainer ani-blur-in">
+                  <h1>No Flights Found</h1>
+                  <p>No flights available for the selected route and date.</p>
+                </div>
+              );
+            })()
+            : <></>
+          }
+        </div>
       </div>
       <section id="about" className="section-about  p-4">
         <div className="container">
