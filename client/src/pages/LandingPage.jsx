@@ -84,28 +84,41 @@ const LandingPage = () => {
   return (
     <div className="landingPage">
       <div className="landingHero">
-
-
-        <div className="landingHero-title">
+        <div className="landingHero-title ani-blur-in">
           <h1 className="banner-h1">Embark on an Extraordinary Flight Booking Adventure!</h1>
           <p className="banner-p">Unleash your travel desires and book extraordinary Flight journeys that will transport you to unforgettable destinations, igniting a sense of adventure like never before.</p>
         </div>
 
-
-
-        <div className="Flight-search-container input-container mb-4">
-
+        <div className="Flight-search-container glass-panel ani-slide-up" style={{ animationDelay: '0.2s' }}>
           <h3>Journey details</h3>
-          <div className="form-check form-switch">
-            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value="" onChange={(e) => setCheckBox(e.target.checked)} />
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Return journey</label>
+          <div className="form-check form-switch mb-3">
+            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: 'white', fontWeight: '500' }}>Return journey</label>
           </div>
+          
           <div className='Flight-search-container-body'>
+            <div className="form-floating">
+              <select className="form-select" id="floatingSelectDeparture" value={departure} onChange={(e) => setDeparture(e.target.value)}>
+                <option value="">Select origin</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Banglore">Banglore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Indore">Indore</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Pune">Pune</option>
+                <option value="Trivendrum">Trivendrum</option>
+                <option value="Bhopal">Bhopal</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="varanasi">varanasi</option>
+                <option value="Jaipur">Jaipur</option>
+              </select>
+              <label htmlFor="floatingSelectDeparture">Departure</label>
+            </div>
 
             <div className="form-floating">
-              <select className="form-select form-select-sm mb-3" id="floatingSelectDeparture" aria-label="Departure City" value={departure} onChange={(e) => setDeparture(e.target.value)}>
-                <option value="" selected>Select</option>
-                {/* ... options ... */}
+              <select className="form-select" id="floatingSelectDestination" value={destination} onChange={(e) => setDestination(e.target.value)}>
+                <option value="">Select destination</option>
                 <option value="Chennai">Chennai</option>
                 <option value="Banglore">Banglore</option>
                 <option value="Hyderabad">Hyderabad</option>
@@ -119,46 +132,28 @@ const LandingPage = () => {
                 <option value="varanasi">varanasi</option>
                 <option value="Jaipur">Jaipur</option>
               </select>
-              <label htmlFor="floatingSelectDeparture">Departure City</label>
+              <label htmlFor="floatingSelectDestination">Destination</label>
             </div>
+
             <div className="form-floating">
-              <select className="form-select form-select-sm mb-3" id="floatingSelectDestination" aria-label="Destination City" value={destination} onChange={(e) => setDestination(e.target.value)}>
-                <option value="" selected>Select</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Banglore">Banglore</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Indore">Indore</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Pune">Pune</option>
-                <option value="Trivendrum">Trivendrum</option>
-                <option value="Bhopal">Bhopal</option>
-                <option value="Kolkata">Kolkata</option>
-                <option value="varanasi">varanasi</option>
-                <option value="Jaipur">Jaipur</option>
-              </select>
-              <label htmlFor="floatingSelectDestination">Destination City</label>
-            </div>
-            <div className="form-floating mb-3">
               <input type="date" className="form-control" id="floatingInputstartDate" value={departureDate} onChange={(e) => setDepartureDate(e.target.value)} />
-              <label htmlFor="floatingInputstartDate">Journey date</label>
+              <label htmlFor="floatingInputstartDate">Date</label>
             </div>
-            {checkBox ?
 
-              <div className="form-floating mb-3">
+            {checkBox && (
+              <div className="form-floating">
                 <input type="date" className="form-control" id="floatingInputreturnDate" value={returnDate} onChange={(e) => setReturnDate(e.target.value)} />
-                <label htmlFor="floatingInputreturnDate">Return date</label>
+                <label htmlFor="floatingInputreturnDate">Return</label>
               </div>
+            )}
 
-              :
-
-              ""}
-            <div>
-              <button className="btn btn-primary" onClick={fetchFlights}>Search</button>
+            <div style={{ minWidth: 'auto', flex: '0 0 auto' }}>
+              <button className="btn btn-primary" style={{ height: '3.5rem', minWidth: '120px', borderRadius: '0.75rem', fontWeight: '700' }} onClick={fetchFlights}>
+                Search
+              </button>
             </div>
-
           </div>
-          <p>{error}</p>
+          {error && <p className="mt-2" style={{ color: '#fb7185', fontSize: '0.9rem', textAlign: 'left' }}>{error}</p>}
         </div>
 
         {Flights.length > 0

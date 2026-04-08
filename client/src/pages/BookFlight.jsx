@@ -185,80 +185,88 @@ const BookFlight = () => {
   
     return (
       <div className='BookFlightPage'>
-  
-        <div className="BookingFlightPageContainer">
-          <h2>Book ticket</h2>
-        <span>
-          <p><b>Flight Name: </b> {flightName}</p>
-          <p><b>Flight No: </b> {flightId}</p>
-        </span>
-        <span>
-          <p><b>From: </b> {StartCity} → <b>To: </b> {destinationCity}</p>
-          <p><b>Base price: </b> ₹{basePrice}</p>
-        </span>
+        <div className="BookingFlightPageContainer ani-slide-up">
+          <h2>Create Passenger Manifest</h2>
+          
+          <div className="flight-briefing">
+              <div className="briefing-item">
+                  <p>Flight Service</p>
+                  <b>{flightName}</b>
+              </div>
+              <div className="briefing-item">
+                  <p>Aircraft ID</p>
+                  <b>{flightId}</b>
+              </div>
+              <div className="briefing-item">
+                  <p>Route</p>
+                  <b>{StartCity} → {destinationCity}</b>
+              </div>
+              <div className="briefing-item" style={{textAlign: 'right'}}>
+                  <p>Base Listing</p>
+                  <b>₹{basePrice}</b>
+              </div>
+          </div>
         
-        <span>
-          <div className="form-floating mb-3">
-                  <input type="email" className="form-control" id="floatingInputemail" value={email} onChange={(e)=> setEmail(e.target.value)} />
-                  <label htmlFor="floatingInputemail">Email</label>
+          <div className="form-row">
+            <div className="form-floating">
+                  <input type="email" className="form-control" id="floatingInputemail" placeholder="email" value={email} onChange={(e)=> setEmail(e.target.value)} />
+                  <label htmlFor="floatingInputemail">Notification Email</label>
             </div>
-            <div className="form-floating mb-3">
-                  <input type="text" className="form-control" id="floatingInputmobileBook" value={mobile} onChange={(e)=> setMobile(e.target.value)} />
-                  <label htmlFor="floatingInputmobileBook">Mobile</label>
-            </div>
-        </span>
-        <span className='span3'>
-          <div className="no-of-passengers">
-            <div className="form-floating mb-3">
-                  <input type="number" min="1" className="form-control" id="floatingInputPassengers" value={numberOfPassengers} onChange={handlePassengerChange} />
-                  <label htmlFor="floatingInputPassengers">No of passengers</label>
+            <div className="form-floating">
+                  <input type="text" className="form-control" id="floatingInputmobileBook" placeholder="mobile" value={mobile} onChange={(e)=> setMobile(e.target.value)} />
+                  <label htmlFor="floatingInputmobileBook">Technical Contact</label>
             </div>
           </div>
-          <div className="form-floating mb-3">
+
+          <div className="form-row-tri" style={{ gridTemplateColumns: '1fr 1fr 1fr', display: 'grid', gap: '1.25rem', marginBottom: '2rem'}}>
+            <div className="form-floating">
+                  <input type="number" min="1" className="form-control" id="floatingInputPassengers" placeholder="0" value={numberOfPassengers} onChange={handlePassengerChange} />
+                  <label htmlFor="floatingInputPassengers">Passenger Count</label>
+            </div>
+            <div className="form-floating">
                   <input type="date" className="form-control" id="floatingInputJourneyDate"
+                    placeholder="date"
                     value={journeyDate || ''}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setJourneyDate(e.target.value)} />
-                  <label htmlFor="floatingInputJourneyDate">Journey date</label>
+                  <label htmlFor="floatingInputJourneyDate">Boarding Date</label>
+            </div>
+            <div className="form-floating">
+                  <select className="form-select" id="floatingSelect" defaultValue="" value={coachType} onChange={(e) => setCoachType(e.target.value) }>
+                    <option value="">Select Cabin</option>
+                    <option value="economy">Economy</option>
+                    <option value="premium-economy">Premium</option>
+                    <option value="business">Business</option>
+                    <option value="first-class">First Class</option>
+                  </select>
+                  <label htmlFor="floatingSelect">Travel Class</label>
+            </div>
           </div>
-          <div className="form-floating">
-                        <select className="form-select form-select-sm mb-3" id="floatingSelect" defaultValue="" aria-label=".form-select-sm example" value={coachType} onChange={(e) => setCoachType(e.target.value) }>
-                          <option value=""selected>Select</option>
-                          <option value="economy">Economy class</option>
-                          <option value="premium-economy">Premium Economy</option>
-                          <option value="business">Business class</option>
-                          <option value="first-class">First class</option>
-                        </select>
-                        <label htmlFor="floatingSelect">Seat Class</label>
+  
+          <div className="new-passengers">
+              {Array.from({ length: numberOfPassengers }).map((_, index) => (
+                <div className='new-passenger' key={index} style={{ animationDelay: `${0.1 + (index * 0.1)}s` }}>
+                  <h4>Passenger {index + 1}</h4>
+                  <div className="new-passenger-inputs">
+                      <div className="form-floating">
+                        <input type="text" className="form-control" placeholder="name" id={`floatingInputpassengerName${index}`} value={passengerDetails[index]?.name || ''} onChange={(event) => handlePassengerDetailsChange(index, 'name', event.target.value) } />
+                        <label htmlFor={`floatingInputpassengerName${index}`}>Full Legal Name</label>
                       </div>
-  
-        </span>
-  
-        <div className="new-passengers">
-            {Array.from({ length: numberOfPassengers }).map((_, index) => (
-              <div className='new-passenger' key={index}>
-                <h4>Passenger {index + 1}</h4>
-                <div className="new-passenger-inputs">
-  
-                    <div className="form-floating mb-3">
-                      <input type="text" className="form-control" id={`floatingInputpassengerName${index}`} value={passengerDetails[index]?.name || ''} onChange={(event) => handlePassengerDetailsChange(index, 'name', event.target.value) } />
-                      <label htmlFor={`floatingInputpassengerName${index}`}>Name</label>
-                    </div>
-                    <div className="form-floating mb-3">
-                          <input type="number" className="form-control" id={`floatingInputpassengerAge${index}`} value={passengerDetails[index]?.age || ''} onChange={(event) => handlePassengerDetailsChange(index, 'age', event.target.value) } />
-                          <label htmlFor={`floatingInputpassengerAge${index}`}>Age</label>
-                    </div>
-                    
-  
+                      <div className="form-floating">
+                            <input type="number" className="form-control" placeholder="age" id={`floatingInputpassengerAge${index}`} value={passengerDetails[index]?.age || ''} onChange={(event) => handlePassengerDetailsChange(index, 'age', event.target.value) } />
+                            <label htmlFor={`floatingInputpassengerAge${index}`}>Age</label>
+                      </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-  
+              ))}
+          </div>
+          
+          <div style={{ marginTop: '3rem', textAlign: 'center', borderTop: '2px solid #f1f5f9', paddingTop: '2rem' }}>
+              <div style={{ fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '600' }}>Aggregated Fare</div>
+              <div style={{ fontSize: '2.5rem', fontWeight: '800', color: '#0f172a' }}>₹{totalPrice}</div>
+              <button className='btn btn-primary' onClick={bookFlight}>Initialize Payment & Book</button>
+          </div>
         </div>
-        
-        <h6><b>Total price</b>: ₹{totalPrice}</h6>
-        <button className='btn btn-primary' onClick={bookFlight}>Pay & Book</button>
-      </div>
       </div>
     )
   }

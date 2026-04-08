@@ -64,8 +64,8 @@ const Flights = () => {
               </div>
 
               <div className="management-grid">
-                {flights.map((flight) => (
-                  <div className="flight-admin-card" key={flight._id}>
+                {flights.map((flight, index) => (
+                  <div className="flight-admin-card ani-scale-in" key={flight._id} style={{ animationDelay: `${0.1 + (index * 0.1)}s` }}>
                     <div className="flight-route-banner">
                       <div className="route-point">
                         <span className="route-city-text">{flight.origin}</span>

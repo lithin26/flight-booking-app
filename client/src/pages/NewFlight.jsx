@@ -71,17 +71,17 @@ const NewFlight = () => {
               <p>Your application is under processing. It needs an approval from the administrator. Kindly please be patience!!</p>
             </div>
           ) : userDetails.approval === 'approved' ? (
-            <div className="NewFlightPageContainer" style={{ maxWidth: '800px', margin: '2rem auto', padding: '2rem', background: 'white', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
-              <h2 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '2rem', color: '#0f172a' }}>Add Flight</h2>
+            <div className="NewFlightPageContainer ani-scale-in" style={{ maxWidth: '800px', margin: '2rem auto', padding: '3rem', background: 'white', borderRadius: '1.5rem', boxShadow: 'var(--shadow-premium)' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '2.5rem', color: '#0f172a', textAlign: 'center' }}>Deploy New Flight Route</h2>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                 <div className="form-floating mb-3">
                   <input type="text" className="form-control" id="flightNameInput" value={flightName} onChange={(e) => setFlightName(e.target.value)} placeholder="Flight Name" />
-                  <label htmlFor="flightNameInput">Flight Name</label>
+                  <label htmlFor="flightNameInput">Airline Name</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input type="text" className="form-control" id="flightIdInput" value={flightId} onChange={(e) => setFlightId(e.target.value)} placeholder="Flight Id" />
-                  <label htmlFor="flightIdInput">Flight Id</label>
+                  <label htmlFor="flightIdInput">Flight ID (ICAO/IATA)</label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -104,7 +104,7 @@ const NewFlight = () => {
                 </div>
                 <div className="form-floating mb-3">
                   <input type="time" className="form-control" id="startTimeInput" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-                  <label htmlFor="startTimeInput">Departure Time</label>
+                  <label htmlFor="startTimeInput">Take-off Time</label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -123,30 +123,30 @@ const NewFlight = () => {
                     <option value="varanasi">varanasi</option>
                     <option value="Jaipur">Jaipur</option>
                   </select>
-                  <label htmlFor="destinationSelect">Destination City</label>
+                  <label htmlFor="destinationSelect">Arrival City</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input type="time" className="form-control" id="arrivalTimeInput" value={arrivalTime} onChange={(e) => setArrivalTime(e.target.value)} />
-                  <label htmlFor="arrivalTimeInput">Arrival Time</label>
+                  <label htmlFor="arrivalTimeInput">Landing Time</label>
                 </div>
 
                 <div className="form-floating mb-3">
                   <input type="number" className="form-control" id="seatsInput" value={totalSeats} onChange={(e) => setTotalSeats(e.target.value)} />
-                  <label htmlFor="seatsInput">Total Capacity (Seats)</label>
+                  <label htmlFor="seatsInput">Total Aircraft Capacity</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input type="number" className="form-control" id="priceInput" value={basePrice} onChange={(e) => setBasePrice(e.target.value)} />
-                  <label htmlFor="priceInput">Base Fare (₹)</label>
+                  <label htmlFor="priceInput">Base Fare Listing (₹)</label>
                 </div>
               </div>
 
-              <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', width: '100%' }}>
+              <div style={{ marginTop: '2.5rem', paddingTop: '2.5rem', borderTop: '2px solid #f1f5f9', width: '100%', textAlign: 'center' }}>
                 <button
                   className='btn btn-primary'
-                  style={{ display: 'block', margin: '0 auto !important', borderRadius: '0.75rem', fontWeight: '800', fontSize: '1.1rem', padding: '0.8rem 4rem', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', border: 'none', boxShadow: '0 10px 15px -3px rgba(37, 99, 235, 0.4)' }}
+                  style={{ width: '100%', maxWidth: '400px', margin: '0 auto', display: 'block', borderRadius: '0.85rem', fontWeight: '800', fontSize: '1.2rem', padding: '1rem', background: '#2563eb', border: 'none', boxShadow: '0 10px 15px -3px rgba(37, 99, 235, 0.4)' }}
                   onClick={handleSubmit}
                 >
-                  🚀 Deploy Flight Now
+                  🚀 Dispatch Flight Route
                 </button>
               </div>
             </div>

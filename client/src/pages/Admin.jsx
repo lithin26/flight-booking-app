@@ -64,17 +64,17 @@ const Admin = () => {
       </div>
 
       <div className="admin-stats-grid" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '3rem'}}>
-          <div className="admin-stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div className="admin-stat-card ani-scale-in" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', animationDelay: '0.1s'}}>
               <h4 style={{color: '#64748b', fontSize: '0.875rem', fontWeight: '600', textTransform: 'uppercase'}}>Global Users</h4>
               <p style={{fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: '0.5rem 0'}}>{userCount}</p>
               <button className="btn btn-primary btn-sm" style={{width: 'auto', padding: '0.4rem 1.2rem'}} onClick={()=>navigate('/all-users')}>Manage Users</button>
           </div>
-          <div className="admin-stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div className="admin-stat-card ani-scale-in" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', animationDelay: '0.2s'}}>
               <h4 style={{color: '#64748b', fontSize: '0.875rem', fontWeight: '600', textTransform: 'uppercase'}}>Total Bookings</h4>
               <p style={{fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: '0.5rem 0'}}>{bookingCount}</p>
               <button className="btn btn-primary btn-sm" style={{width: 'auto', padding: '0.4rem 1.2rem'}} onClick={()=>navigate('/all-bookings')}>View Records</button>
           </div>
-          <div className="admin-stat-card" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div className="admin-stat-card ani-scale-in" style={{background: 'white', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', animationDelay: '0.3s'}}>
               <h4 style={{color: '#64748b', fontSize: '0.875rem', fontWeight: '600', textTransform: 'uppercase'}}>Active Flights</h4>
               <p style={{fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: '0.5rem 0'}}>{flightsCount}</p>
               <button className="btn btn-primary btn-sm" style={{width: 'auto', padding: '0.4rem 1.2rem'}} onClick={()=>navigate('/all-flights')}>Fleet Control</button>
@@ -91,10 +91,10 @@ const Admin = () => {
                 </div>
               :
                 <>
-                {users.map((user)=>{
+                {users.map((user, index)=>{
                   return(
-                    <div className="admin-app-card" key={user._id} style={{background: 'white', padding: '1.25rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                      <div style={{display: 'flex', gap: '2rem', alignItems: 'center'}}>
+                    <div className="admin-app-card ani-slide-up" key={user._id} style={{background: 'white', padding: '1.25rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', animationDelay: `${0.4 + (index * 0.1)}s`}}>
+                      <div style={{display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap'}}>
                         <div>
                           <p style={{margin: 0, fontSize: '0.75rem', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '600'}}>Operator Name</p>
                           <p style={{margin: 0, fontWeight: '700', color: '#1e293b'}}>{user.username}</p>
