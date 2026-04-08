@@ -10,6 +10,7 @@ const GeneralContextProvider = ({ children }) => {
   const [password, setPassword] = useState('');
   const [usertype, setUsertype] = useState(localStorage.getItem('userType') || '');
   const [ticketBookingDate, setTicketBookingDate] = useState();
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,55 +52,73 @@ const GeneralContextProvider = ({ children }) => {
   }, []);
 
   const login = async () => {
+    if (isAuthLoading) return;
+    setIsAuthLoading(true);
     try {
       const loginInputs = { email, password };
       const res = await axios.post('/login', loginInputs);
 
-      const user = res.data.user;
-      const token = res.data.token;
+      if (res.data && res.data.token) {
+          const user = res.data.user;
+          const token = res.data.token;
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('userId', user.id || user._id);
-      localStorage.setItem('userType', user.usertype);
-      localStorage.setItem('username', user.username);
-      localStorage.setItem('email', user.email);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userId', user.id || user._id);
+          localStorage.setItem('userType', user.usertype);
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('email', user.email);
 
-      if (user.usertype === 'customer') {
-        navigate('/');
-      } else if (user.usertype === 'admin') {
-        navigate('/admin');
-      } else if (user.usertype === 'flight-operator') {
-        navigate('/flight-admin');
+          if (user.usertype === 'customer') {
+            navigate('/');
+          } else if (user.usertype === 'admin') {
+            navigate('/admin');
+          } else if (user.usertype === 'flight-operator') {
+            navigate('/flight-admin');
+          }
       }
     } catch (err) {
-      alert("Login failed!!");
-      console.log(err);
+      if (err.response) {
+          alert(`Login failed: ${err.response.data.message || 'Invalid Credentials'}`);
+      } else {
+          console.error("Login Context Error:", err);
+      }
+    } finally {
+        setIsAuthLoading(false);
     }
   };
 
   const register = async () => {
+    if (isAuthLoading) return;
+    setIsAuthLoading(true);
     try {
       const res = await axios.post('/register', inputs);
 
-      const user = res.data.user;
-      const token = res.data.token;
+      if (res.data && res.data.token) {
+          const user = res.data.user;
+          const token = res.data.token;
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('userId', user.id || user._id);
-      localStorage.setItem('userType', user.usertype);
-      localStorage.setItem('username', user.username);
-      localStorage.setItem('email', user.email);
+          localStorage.setItem('token', token);
+          localStorage.setItem('userId', user.id || user._id);
+          localStorage.setItem('userType', user.usertype);
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('email', user.email);
 
-      if (user.usertype === 'customer') {
-        navigate('/');
-      } else if (user.usertype === 'admin') {
-        navigate('/admin');
-      } else if (user.usertype === 'flight-operator') {
-        navigate('/flight-admin');
+          if (user.usertype === 'customer') {
+            navigate('/');
+          } else if (user.usertype === 'admin') {
+            navigate('/admin');
+          } else if (user.usertype === 'flight-operator') {
+            navigate('/flight-admin');
+          }
       }
     } catch (err) {
-      alert("Registration failed!!");
-      console.log(err);
+      if (err.response) {
+          alert(`Registration failed: ${err.response.data.message || 'Error occurred'}`);
+      } else {
+          console.error("Registration Context Error:", err);
+      }
+    } finally {
+        setIsAuthLoading(false);
     }
   };
 
@@ -124,7 +143,8 @@ const GeneralContextProvider = ({ children }) => {
         usertype,
         setUsertype,
         ticketBookingDate,
-        setTicketBookingDate
+        setTicketBookingDate,
+        isAuthLoading
       }}
     >
       {children}

@@ -12,10 +12,15 @@ import paymentRoutes from "./routes/paymentRoutes.js"
 const app = express();
 
 app.use(express.json());
-app.use(bodyParser.json({limit: "30mb", extended: true}))
-app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
+app.use(express.urlencoded({limit: "30mb", extended: true}));
 app.use(cors());
-app.use(authRoutes,adminRoutes,flightRoutes,customerRoutes,paymentRoutes)
+
+// Mount routers individually to prevent masking/interference
+app.use(authRoutes);
+app.use(adminRoutes);
+app.use(flightRoutes);
+app.use(customerRoutes);
+app.use(paymentRoutes);
 
 const PORT = process.env.PORT || 6001;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/FlightBookingMERN';

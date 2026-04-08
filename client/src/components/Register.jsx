@@ -3,14 +3,14 @@ import { GeneralContext } from '../context/GeneralContext';
 
 const Register = ({setIsLogin}) => {
 
-  const {setUsername, setEmail, setPassword, usertype, setUsertype, register} = useContext(GeneralContext);
+  const {setUsername, setEmail, setPassword, usertype, setUsertype, register, isAuthLoading} = useContext(GeneralContext);
 
   const handleRegister = async (e) =>{
     e.preventDefault();
     await register()
   }
   return (
-    <form className="authForm">
+    <form className="authForm" onSubmit={handleRegister}>
         <h2>Register</h2>
         <div className="form-floating mb-3 authFormInputs">
             <input type="text" className="form-control" id="floatingInput" placeholder="username"
@@ -35,7 +35,13 @@ const Register = ({setIsLogin}) => {
           <option value="flight-operator">Flight Operator</option>
         </select>
         
-        <button className="btn btn-primary" onClick={handleRegister}>Sign up</button>
+        <button 
+          type="submit" 
+          className="btn btn-primary" 
+          disabled={isAuthLoading}
+        >
+          {isAuthLoading ? 'Creating Account...' : 'Sign up'}
+        </button>
         <p>Already registered? <span onClick={()=> setIsLogin(true)}>Login</span></p>
     </form>
   )}

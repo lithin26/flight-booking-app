@@ -4,14 +4,14 @@ import { GeneralContext } from '../context/GeneralContext';
 
 const Login = ({setIsLogin}) => {
 
-  const {setEmail, setPassword, login} = useContext(GeneralContext);
+  const {setEmail, setPassword, login, isAuthLoading} = useContext(GeneralContext);
 
   const handleLogin = async (e) =>{
     e.preventDefault();
     await login();
   }
   return (
-    <form className="authForm">
+    <form className="authForm" onSubmit={handleLogin}>
         <h2>Login</h2>
         <div className="form-floating mb-3 authFormInputs">
             <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" 
@@ -23,7 +23,13 @@ const Login = ({setIsLogin}) => {
                                                                   onChange={(e) => setPassword(e.target.value)} /> 
             <label htmlFor="floatingPassword">Password</label>
         </div>
-        <button type="submit" className="btn btn-primary" onClick={handleLogin}>Sign in</button>
+        <button 
+          type="submit" 
+          className="btn btn-primary" 
+          disabled={isAuthLoading}
+        >
+          {isAuthLoading ? 'Authenticating...' : 'Sign in'}
+        </button>
 
         <p>Not registered? <span onClick={()=> setIsLogin(false)}>Register</span></p>
     </form>

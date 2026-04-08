@@ -34,6 +34,19 @@ const Flights = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm("ARE YOU SURE? This will permanently remove this flight from the registry!")) {
+      try {
+        await axios.delete(`/delete-flight/${id}`);
+        alert('Flight successfully removed!');
+        fetchFlights(); // Refresh the list
+      } catch (err) {
+        console.error("Delete Error:", err);
+        alert('Error removing flight. Please try again.');
+      }
+    }
+  };
+
   return (
     <div className="admin-dashboard-container">
       {userDetails ? (
@@ -88,9 +101,12 @@ const Flights = () => {
                         </div>
                     </div>
 
-                    <div className="card-actions" style={{ padding: '1.25rem' }}>
-                      <button className="btn btn-outline-primary w-100" style={{ borderRadius: '8px', fontWeight: '600' }} onClick={() => navigate(`/edit-flight/${flight._id}`)}>
-                        Update Fleet Records
+                    <div className="card-actions" style={{ padding: '1.25rem', display: 'flex', gap: '0.75rem' }}>
+                      <button className="btn btn-outline-primary" style={{ flex: 1, borderRadius: '8px', fontWeight: '600' }} onClick={() => navigate(`/edit-flight/${flight._id}`)}>
+                        Update Records
+                      </button>
+                      <button className="btn btn-outline-danger" style={{ flex: 1, borderRadius: '8px', fontWeight: '600' }} onClick={() => handleDelete(flight._id)}>
+                        Remove
                       </button>
                     </div>
                   </div>
@@ -100,7 +116,9 @@ const Flights = () => {
           ) : null}
         </>
       ) : (
-        <p>Loading operator profile...</p>
+        <div style={{ textAlign: 'center', padding: '5rem' }}>
+            <p>Syncing Command Center Security...</p>
+        </div>
       )}
     </div>
   );
