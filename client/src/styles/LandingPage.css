@@ -55,14 +55,14 @@
 }
 
 .Flight-search-container .form-check-input {
-    background-color: white;
-    border: 2px solid #64748b;
+    background-color: #ffffff !important;
+    border: 2px solid #0f172a !important; /* Darker border for better visibility */
     border-radius: 4px !important;
 }
 
 .Flight-search-container .form-check-input:checked {
-    background-color: #2563eb;
-    border-color: #2563eb;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
 }
 
 .Flight-search-container-body {
