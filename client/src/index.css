@@ -70,6 +70,15 @@ code {
     monospace;
 }
 
+/* Fix for floating labels showing placeholder while typing */
+.form-floating > .form-control::placeholder {
+  color: transparent !important;
+}
+
+.form-floating > .form-control:focus::placeholder {
+  color: transparent !important;
+}
+
 @media (max-width: 768px) {
     .responsive-container {
         width: 95%;

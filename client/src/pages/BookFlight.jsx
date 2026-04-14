@@ -122,7 +122,7 @@ const BookFlight = () => {
           key: "rzp_test_SZHA97faCPlVc9", // Ensure this matches your RAZORPAY_KEY_ID in .env
           amount: order.amount,
           currency: "INR",
-          name: "Flight Booking Platform",
+          name: "LR Flights",
           description: `Flight Reservation: ${flightName} (${flightId})`,
           order_id: order.id,
           handler: async function (response) {

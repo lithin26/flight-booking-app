@@ -101,9 +101,9 @@ const LandingPage = () => {
 
         <div className="Flight-search-container glass-panel ani-slide-up" style={{ animationDelay: '0.2s' }}>
           <h3>Journey details</h3>
-          <div className="form-check form-switch mb-4 d-flex align-items-center gap-3" style={{ paddingLeft: '2.5rem' }}>
-            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ cursor: 'pointer', height: '1.6rem', width: '3.2rem', margin: 0 }} checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: 'white', fontWeight: '600', cursor: 'pointer', fontSize: '1.05rem', marginTop: '2px' }}>Return journey</label>
+          <div className="form-check mb-4 d-flex align-items-center gap-3" style={{ paddingLeft: '2.5rem' }}>
+            <input className="form-check-input" type="checkbox" id="checkReturnJourney" style={{ cursor: 'pointer', height: '1.25rem', width: '1.25rem', margin: 0 }} checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />
+            <label className="form-check-label" htmlFor="checkReturnJourney" style={{ color: '#1e293b', fontWeight: '800', cursor: 'pointer', fontSize: '1.05rem', marginTop: '2px' }}>Return journey</label>
           </div>
           
           <div className='Flight-search-container-body'>
@@ -233,7 +233,7 @@ const LandingPage = () => {
             &nbsp; &nbsp;&nbsp; &nbsp; With our Flight ticket booking app, you can embrace the joy of exploring new destinations, immerse yourself in breathtaking scenery, and create cherished memories along the way. Start your journey today and let us be your trusted companion in making your Flight travel dreams a reality. Experience the convenience, reliability, and comfort that our app offers, and embark on unforgettable Flight adventures with confidence.
           </p>
 
-          <span><h5>2023 SB FlightConnect - &copy; All rights reserved</h5></span>
+          <span><h5>2023 LR FlightConnect - &copy; All rights reserved</h5></span>
 
         </div>
       </section>
