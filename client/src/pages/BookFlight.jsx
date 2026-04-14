@@ -122,7 +122,7 @@ const BookFlight = () => {
           key: "rzp_test_SZHA97faCPlVc9", // Ensure this matches your RAZORPAY_KEY_ID in .env
           amount: order.amount,
           currency: "INR",
-          name: "LR Flights",
+          name: "Flight Booking Platform",
           description: `Flight Reservation: ${flightName} (${flightId})`,
           order_id: order.id,
           handler: async function (response) {
@@ -209,23 +209,23 @@ const BookFlight = () => {
         
           <div className="form-row">
             <div className="form-floating">
-                  <input type="email" className="form-control" id="floatingInputemail" placeholder="email" value={email} onChange={(e)=> setEmail(e.target.value)} />
+                  <input type="email" className="form-control" id="floatingInputemail" placeholder=" " value={email} onChange={(e)=> setEmail(e.target.value)} />
                   <label htmlFor="floatingInputemail">Notification Email</label>
             </div>
             <div className="form-floating">
-                  <input type="text" className="form-control" id="floatingInputmobileBook" placeholder="mobile" value={mobile} onChange={(e)=> setMobile(e.target.value)} />
+                  <input type="text" className="form-control" id="floatingInputmobileBook" placeholder=" " value={mobile} onChange={(e)=> setMobile(e.target.value)} />
                   <label htmlFor="floatingInputmobileBook">Technical Contact</label>
             </div>
           </div>
 
           <div className="form-row-tri" style={{ gridTemplateColumns: '1fr 1fr 1fr', display: 'grid', gap: '1.25rem', marginBottom: '2rem'}}>
             <div className="form-floating">
-                  <input type="number" min="1" className="form-control" id="floatingInputPassengers" placeholder="0" value={numberOfPassengers} onChange={handlePassengerChange} />
+                  <input type="number" min="1" className="form-control" id="floatingInputPassengers" placeholder=" " value={numberOfPassengers} onChange={handlePassengerChange} />
                   <label htmlFor="floatingInputPassengers">Passenger Count</label>
             </div>
             <div className="form-floating">
                   <input type="date" className="form-control" id="floatingInputJourneyDate"
-                    placeholder="date"
+                    placeholder=" "
                     value={journeyDate || ''}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setJourneyDate(e.target.value)} />
@@ -249,11 +249,11 @@ const BookFlight = () => {
                   <h4>Passenger {index + 1}</h4>
                   <div className="new-passenger-inputs">
                       <div className="form-floating">
-                        <input type="text" className="form-control" placeholder="name" id={`floatingInputpassengerName${index}`} value={passengerDetails[index]?.name || ''} onChange={(event) => handlePassengerDetailsChange(index, 'name', event.target.value) } />
+                        <input type="text" className="form-control" placeholder=" " id={`floatingInputpassengerName${index}`} value={passengerDetails[index]?.name || ''} onChange={(event) => handlePassengerDetailsChange(index, 'name', event.target.value) } />
                         <label htmlFor={`floatingInputpassengerName${index}`}>Full Legal Name</label>
                       </div>
                       <div className="form-floating">
-                            <input type="number" className="form-control" placeholder="age" id={`floatingInputpassengerAge${index}`} value={passengerDetails[index]?.age || ''} onChange={(event) => handlePassengerDetailsChange(index, 'age', event.target.value) } />
+                            <input type="number" className="form-control" placeholder=" " id={`floatingInputpassengerAge${index}`} value={passengerDetails[index]?.age || ''} onChange={(event) => handlePassengerDetailsChange(index, 'age', event.target.value) } />
                             <label htmlFor={`floatingInputpassengerAge${index}`}>Age</label>
                       </div>
                   </div>

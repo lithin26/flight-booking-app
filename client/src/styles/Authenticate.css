@@ -37,8 +37,6 @@
 .authForm input, .authForm select {
     border-radius: 0.85rem !important;
     border: 1.5px solid #e2e8f0 !important;
-    padding: 0.875rem 1rem !important;
-    height: auto !important;
     background: white !important;
     transition: all 0.2s ease !important;
 }

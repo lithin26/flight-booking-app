@@ -13,17 +13,17 @@ const Register = ({setIsLogin}) => {
     <form className="authForm" onSubmit={handleRegister}>
         <h2>Register</h2>
         <div className="form-floating mb-3 authFormInputs">
-            <input type="text" className="form-control" id="floatingInput" placeholder="username"
+            <input type="text" className="form-control" id="floatingInput" placeholder=" "
                                                        onChange={(e)=> setUsername(e.target.value)} />
             <label htmlFor="floatingInput">Username</label>
         </div>
         <div className="form-floating mb-3 authFormInputs">
-            <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com"
+            <input type="email" className="form-control" id="floatingEmail" placeholder=" "
                                                        onChange={(e)=> setEmail(e.target.value)} />
             <label htmlFor="floatingEmail">Email address</label>
         </div>
         <div className="form-floating mb-3 authFormInputs">
-            <input type="password" className="form-control" id="floatingPassword" placeholder="Password"
+            <input type="password" className="form-control" id="floatingPassword" placeholder=" "
                                                        onChange={(e)=> setPassword(e.target.value)} /> 
             <label htmlFor="floatingPassword">Password</label>
         </div>

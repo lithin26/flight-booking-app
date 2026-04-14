@@ -146,13 +146,13 @@ const LandingPage = () => {
             </div>
 
             <div className="form-floating">
-              <input type="date" className="form-control" id="floatingInputstartDate" value={departureDate} onChange={(e) => setDepartureDate(e.target.value)} />
+                <input type="date" className="form-control" id="floatingInputstartDate" placeholder=" " value={departureDate} onChange={(e) => setDepartureDate(e.target.value)} />
               <label htmlFor="floatingInputstartDate">Date</label>
             </div>
 
             {checkBox && (
               <div className="form-floating">
-                <input type="date" className="form-control" id="floatingInputreturnDate" value={returnDate} onChange={(e) => setReturnDate(e.target.value)} />
+                <input type="date" className="form-control" id="floatingInputreturnDate" placeholder=" " value={returnDate} onChange={(e) => setReturnDate(e.target.value)} />
                 <label htmlFor="floatingInputreturnDate">Return</label>
               </div>
             )}
