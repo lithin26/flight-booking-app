@@ -9,14 +9,18 @@ export const Register = async (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
     try {
+        console.time('DB_Lookup');
         const existingUser = await User.findOne({ email });
+        console.timeEnd('DB_Lookup');
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
         if (usertype === 'flight-operator') {
             approval = 'not-approved';
         }
-       const hashedPassword = await bcrypt.hash(password, 10);
+        console.time('Password_Hash');
+        const hashedPassword = await bcrypt.hash(password, 8);
+        console.timeEnd('Password_Hash');
         const newUser = new User({
             username,
             email,
@@ -50,11 +54,15 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
     const { email, password } = req.body;
     try {
+        console.time('Login_DB_Lookup');
         const user = await User.findOne({ email });
+        console.timeEnd('Login_DB_Lookup');
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
+        console.time('Password_Compare');
         const isMatch = await bcrypt.compare(password, user.password);
+        console.timeEnd('Password_Compare');
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
