@@ -27,7 +27,7 @@ const Register = ({setIsLogin}) => {
                                                        onChange={(e)=> setPassword(e.target.value)} /> 
             <label htmlFor="floatingPassword">Password</label>
         </div>
-        <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" 
+        <select className="form-select mb-3" aria-label="Default select example" 
                                                       onChange={(e)=> setUsertype(e.target.value)}>
           <option value="">User type</option>
           <option value="admin">Admin</option>
